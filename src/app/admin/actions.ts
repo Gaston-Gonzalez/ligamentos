@@ -178,6 +178,203 @@ export async function updatePlayerAction(formData: FormData) {
   revalidatePath("/", "layout");
 }
 
+function matchResult(
+  goalsFor: number,
+  goalsAgainst: number,
+): "W" | "D" | "L" {
+  if (goalsFor > goalsAgainst) return "W";
+  if (goalsFor < goalsAgainst) return "L";
+  return "D";
+}
+
+function parseGoalEntries(formData: FormData) {
+  const players = formData.getAll("goalPlayer").map(String);
+  const owns = formData.getAll("goalOwn").map(String);
+  return players
+    .map((player, i) => ({
+      player: player.trim() || null,
+      isOwnGoal: owns[i] === "1" || owns[i] === "on",
+    }))
+    .filter((e) => e.isOwnGoal || e.player);
+}
+
+/** Goles a favor y cantidad de goleadores (incl. en contra) deben coincidir. */
+function assertGoalsMatchScorers(
+  goalsFor: number,
+  entries: ReturnType<typeof parseGoalEntries>,
+  redirectTo: string,
+) {
+  const gf = Number.isFinite(goalsFor) ? Math.max(0, Math.trunc(goalsFor)) : 0;
+  if (entries.length === gf) return;
+  const sep = redirectTo.includes("?") ? "&" : "?";
+  redirect(
+    `${redirectTo}${sep}error=goals&gf=${gf}&gs=${entries.length}`,
+  );
+}
+
+function parseAttendanceEntries(formData: FormData) {
+  const players = formData.getAll("attPlayer").map(String);
+  const statuses = formData.getAll("attStatus").map(String);
+  return players.map((player, i) => ({
+    player: player.trim(),
+    status: statuses[i] || "not_registered",
+  })).filter((e) => e.player);
+}
+
+type DbIds = NonNullable<Awaited<ReturnType<typeof resolveDbIds>>>;
+
+async function saveMatchGoals(
+  ids: DbIds | null,
+  matchIndex: number,
+  matchDbId: number | null,
+  entries: ReturnType<typeof parseGoalEntries>,
+  seed?: SeedData,
+) {
+  if (ids && matchDbId != null) {
+    await ids.db.delete(goals).where(eq(goals.matchId, matchDbId));
+    for (const e of entries) {
+      if (e.isOwnGoal) {
+        await ids.db.insert(goals).values({
+          matchId: matchDbId,
+          playerId: null,
+          isOwnGoal: true,
+        });
+        continue;
+      }
+      const player = [...ids.players].find((p) => p.name === e.player);
+      if (!player) continue;
+      await ids.db.insert(goals).values({
+        matchId: matchDbId,
+        playerId: player.id,
+        isOwnGoal: false,
+      });
+    }
+    return;
+  }
+  if (!seed) return;
+  seed.goals = seed.goals.filter((g) => g.matchIndex !== matchIndex);
+  for (const e of entries) {
+    seed.goals.push({
+      matchIndex,
+      player: e.isOwnGoal ? null : e.player,
+      isOwnGoal: e.isOwnGoal,
+    });
+  }
+}
+
+async function saveMatchAttendance(
+  ids: DbIds | null,
+  matchIndex: number,
+  matchDbId: number | null,
+  entries: ReturnType<typeof parseAttendanceEntries>,
+  seed?: SeedData,
+) {
+  if (ids && matchDbId != null) {
+    await ids.db.delete(attendances).where(eq(attendances.matchId, matchDbId));
+    for (const e of entries) {
+      const player = [...ids.players].find((p) => p.name === e.player);
+      if (!player) continue;
+      await ids.db.insert(attendances).values({
+        matchId: matchDbId,
+        playerId: player.id,
+        status: e.status,
+      });
+    }
+    return;
+  }
+  if (!seed) return;
+  seed.attendances = seed.attendances.filter((a) => a.matchIndex !== matchIndex);
+  for (const e of entries) {
+    seed.attendances.push({
+      matchIndex,
+      player: e.player,
+      status: e.status,
+    });
+  }
+}
+
+export async function createMatchAction(formData: FormData) {
+  await requireAdmin();
+  const rival = String(formData.get("rival") ?? "").trim();
+  const championshipName = String(formData.get("championship") ?? "").trim();
+  const date = String(formData.get("date") ?? "").trim() || null;
+  const pitchRaw = String(formData.get("pitch") ?? "");
+  const goalsFor = Number(formData.get("goalsFor") ?? 0);
+  const goalsAgainst = Number(formData.get("goalsAgainst") ?? 0);
+  const jornadaRaw = String(formData.get("jornada") ?? "");
+  const youtubeUrl = String(formData.get("youtubeUrl") ?? "").trim() || null;
+  const ligaproAlbumUrl =
+    String(formData.get("ligaproAlbumUrl") ?? "").trim() || null;
+  const goalEntries = parseGoalEntries(formData);
+  const attEntries = parseAttendanceEntries(formData);
+
+  if (!rival) throw new Error("Rival requerido");
+  if (!championshipName) throw new Error("Campeonato requerido");
+  assertGoalsMatchScorers(goalsFor, goalEntries, "/admin/partidos");
+
+  const result = matchResult(goalsFor, goalsAgainst);
+  const pitch = pitchRaw ? Number(pitchRaw) : null;
+  const jornada = jornadaRaw ? Number(jornadaRaw) : null;
+
+  const ids = await resolveDbIds();
+  let newIndex: number;
+  if (ids) {
+    const champ = [...ids.championshipBySlug.values()].find(
+      (c) => c.name === championshipName,
+    );
+    if (!champ) throw new Error("Campeonato no encontrado");
+    const maxIndex = Math.max(
+      0,
+      ...[...ids.matchByIndex.keys()].map(Number),
+    );
+    newIndex = maxIndex + 1;
+    const [row] = await ids.db
+      .insert(matches)
+      .values({
+        championshipId: champ.id,
+        matchIndex: newIndex,
+        rival,
+        date,
+        pitch,
+        goalsFor,
+        goalsAgainst,
+        result,
+        jornada,
+        youtubeUrl,
+        ligaproAlbumUrl,
+      })
+      .returning();
+    await saveMatchGoals(ids, newIndex, row.id, goalEntries);
+    await saveMatchAttendance(ids, newIndex, row.id, attEntries);
+  } else {
+    const seed = await readSeed();
+    if (!seed.championships.some((c) => c.name === championshipName)) {
+      throw new Error("Campeonato no encontrado");
+    }
+    newIndex =
+      Math.max(0, ...seed.matches.map((m) => m.index)) + 1;
+    seed.matches.push({
+      index: newIndex,
+      rival,
+      championship: championshipName,
+      pitch,
+      result,
+      goalsFor,
+      goalsAgainst,
+      date,
+      jornada,
+      youtubeUrl,
+      ligaproAlbumUrl,
+    });
+    await saveMatchGoals(null, newIndex, null, goalEntries, seed);
+    await saveMatchAttendance(null, newIndex, null, attEntries, seed);
+    await writeSeed(seed);
+  }
+
+  revalidatePath("/", "layout");
+  redirect(`/admin/partidos?edit=${newIndex}`);
+}
+
 export async function updateMatchAction(formData: FormData) {
   await requireAdmin();
   const index = Number(formData.get("index"));
@@ -186,14 +383,22 @@ export async function updateMatchAction(formData: FormData) {
   const pitchRaw = String(formData.get("pitch") ?? "");
   const goalsFor = Number(formData.get("goalsFor") ?? 0);
   const goalsAgainst = Number(formData.get("goalsAgainst") ?? 0);
+  const jornadaRaw = String(formData.get("jornada") ?? "");
   const youtubeUrl = String(formData.get("youtubeUrl") ?? "").trim() || null;
   const ligaproAlbumUrl =
     String(formData.get("ligaproAlbumUrl") ?? "").trim() || null;
   const championshipName = String(formData.get("championship") ?? "").trim();
+  const goalEntries = parseGoalEntries(formData);
+  const attEntries = parseAttendanceEntries(formData);
 
-  let result: "W" | "D" | "L" = "D";
-  if (goalsFor > goalsAgainst) result = "W";
-  else if (goalsFor < goalsAgainst) result = "L";
+  assertGoalsMatchScorers(
+    goalsFor,
+    goalEntries,
+    `/admin/partidos?edit=${index}`,
+  );
+
+  const result = matchResult(goalsFor, goalsAgainst);
+  const jornada = jornadaRaw ? Number(jornadaRaw) : null;
 
   const ids = await resolveDbIds();
   if (ids) {
@@ -211,11 +416,14 @@ export async function updateMatchAction(formData: FormData) {
         goalsFor,
         goalsAgainst,
         result,
+        jornada,
         youtubeUrl,
         ligaproAlbumUrl,
         championshipId: champ?.id ?? match.championshipId,
       })
       .where(eq(matches.id, match.id));
+    await saveMatchGoals(ids, index, match.id, goalEntries);
+    await saveMatchAttendance(ids, index, match.id, attEntries);
   } else {
     const seed = await readSeed();
     const m = seed.matches.find((x) => x.index === index);
@@ -226,16 +434,43 @@ export async function updateMatchAction(formData: FormData) {
     m.goalsFor = goalsFor;
     m.goalsAgainst = goalsAgainst;
     m.result = result;
+    m.jornada = jornada;
     m.youtubeUrl = youtubeUrl;
     m.ligaproAlbumUrl = ligaproAlbumUrl;
     m.championship = championshipName;
+    await saveMatchGoals(null, index, null, goalEntries, seed);
+    await saveMatchAttendance(null, index, null, attEntries, seed);
     await writeSeed(seed);
   }
 
+  revalidatePath("/", "layout");
   revalidatePath("/partidos");
   revalidatePath(`/partidos/${index}`);
   revalidatePath("/admin/partidos");
   revalidatePath("/videos");
+}
+
+/** Replace all goal scorers for a match. Form fields: goalPlayer[] (name or ""), goalOwn[] ("1" / "0"). */
+export async function updateMatchGoalsAction(formData: FormData) {
+  await requireAdmin();
+  const index = Number(formData.get("index"));
+  const entries = parseGoalEntries(formData);
+
+  const ids = await resolveDbIds();
+  if (ids) {
+    const match = ids.matchByIndex.get(index);
+    if (!match) throw new Error("Partido no encontrado");
+    await saveMatchGoals(ids, index, match.id, entries);
+  } else {
+    const seed = await readSeed();
+    await saveMatchGoals(null, index, null, entries, seed);
+    await writeSeed(seed);
+  }
+
+  revalidatePath("/", "layout");
+  revalidatePath(`/partidos/${index}`);
+  revalidatePath(`/admin/partidos`);
+  redirect(`/admin/partidos?edit=${index}`);
 }
 
 export async function updateAttendanceAction(formData: FormData) {
