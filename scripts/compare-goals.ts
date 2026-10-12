@@ -191,7 +191,7 @@ async function loadNeonGoals(): Promise<{
     })),
     matches: matchRows.map((m) => ({
       id: m.id,
-      matchIndex: m.matchIndex,
+      matchIndex: m.matchIndex ?? -1,
       rival: m.rival,
       goalsFor: m.goalsFor,
     })),
