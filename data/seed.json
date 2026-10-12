@@ -861,7 +861,8 @@
       "attendanceLabel": "10/17",
       "ligaproAlbumId": "26566",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26566",
-      "jornada": 1
+      "jornada": 1,
+      "youtubeUrl": "https://www.youtube.com/watch?v=joerN_pvFZY"
     },
     {
       "index": 45,
@@ -875,7 +876,8 @@
       "attendanceLabel": "10/17",
       "ligaproAlbumId": "26568",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26568",
-      "jornada": 2
+      "jornada": 2,
+      "youtubeUrl": "https://www.youtube.com/watch?v=94TQfs-1p6o"
     },
     {
       "index": 46,
@@ -889,7 +891,8 @@
       "attendanceLabel": "14/17",
       "ligaproAlbumId": "26569",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26569",
-      "jornada": 3
+      "jornada": 3,
+      "youtubeUrl": "https://www.youtube.com/watch?v=A-LItxyLsTo"
     },
     {
       "index": 47,
@@ -902,7 +905,8 @@
       "date": "2026-03-21",
       "attendanceLabel": "13/17",
       "ligaproAlbumId": "26697",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26697"
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26697",
+      "youtubeUrl": "https://www.youtube.com/watch?v=rv8fJ34ntgU"
     },
     {
       "index": 48,
@@ -915,7 +919,8 @@
       "date": "2026-03-28",
       "attendanceLabel": "10/17",
       "ligaproAlbumId": "26755",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26755"
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26755",
+      "youtubeUrl": "https://www.youtube.com/watch?v=aKLZn4aznD8"
     },
     {
       "index": 49,
@@ -929,7 +934,8 @@
       "attendanceLabel": "13/17",
       "ligaproAlbumId": "26852",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26852",
-      "jornada": 1
+      "jornada": 1,
+      "youtubeUrl": "https://www.youtube.com/watch?v=SXmOkk4BQ1Y"
     },
     {
       "index": 50,
@@ -943,7 +949,8 @@
       "attendanceLabel": "11/17",
       "ligaproAlbumId": "26862",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26862",
-      "jornada": 2
+      "jornada": 2,
+      "youtubeUrl": "https://www.youtube.com/watch?v=vjUzSbidG6s"
     },
     {
       "index": 51,
@@ -957,7 +964,8 @@
       "attendanceLabel": "13/17",
       "ligaproAlbumId": "26868",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26868",
-      "jornada": 3
+      "jornada": 3,
+      "youtubeUrl": "https://www.youtube.com/watch?v=KLuFch6jpmA"
     },
     {
       "index": 52,
@@ -971,7 +979,8 @@
       "attendanceLabel": "11/17",
       "ligaproAlbumId": "26873",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26873",
-      "jornada": 4
+      "jornada": 4,
+      "youtubeUrl": "https://www.youtube.com/watch?v=7Yqc6x1V1_8"
     },
     {
       "index": 53,
@@ -982,7 +991,8 @@
       "goalsFor": 1,
       "goalsAgainst": 1,
       "date": "2026-05-16",
-      "attendanceLabel": "11/17"
+      "attendanceLabel": "11/17",
+      "youtubeUrl": "https://www.youtube.com/watch?v=P6m48sIgpk0"
     },
     {
       "index": 54,
@@ -995,7 +1005,8 @@
       "date": "2026-05-23",
       "attendanceLabel": "12/17",
       "ligaproAlbumId": null,
-      "ligaproAlbumUrl": null
+      "ligaproAlbumUrl": null,
+      "youtubeUrl": "https://www.youtube.com/watch?v=RlbS1Za7LlY"
     },
     {
       "index": 55,
@@ -1009,7 +1020,8 @@
       "attendanceLabel": "9/17",
       "ligaproAlbumId": "26888",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26888",
-      "jornada": 7
+      "jornada": 7,
+      "youtubeUrl": "https://www.youtube.com/watch?v=4E89Y63HqDs"
     },
     {
       "index": 56,
@@ -1023,7 +1035,8 @@
       "attendanceLabel": "10/17",
       "ligaproAlbumId": "26900",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26900",
-      "jornada": 9
+      "jornada": 9,
+      "youtubeUrl": "https://www.youtube.com/watch?v=NejM0aq1VOg"
     },
     {
       "index": 57,
@@ -1037,7 +1050,8 @@
       "attendanceLabel": "11/17",
       "ligaproAlbumId": "26907",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26907",
-      "jornada": 10
+      "jornada": 10,
+      "youtubeUrl": "https://www.youtube.com/watch?v=KO0459Smd3c"
     },
     {
       "index": 58,
@@ -1051,7 +1065,8 @@
       "attendanceLabel": "9/17",
       "ligaproAlbumId": "26914",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26914",
-      "jornada": 11
+      "jornada": 11,
+      "youtubeUrl": "https://www.youtube.com/watch?v=8tHVaQjyqig"
     },
     {
       "index": 59,
@@ -1065,7 +1080,8 @@
       "attendanceLabel": "14/18",
       "ligaproAlbumId": "28791",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/28791",
-      "jornada": 1
+      "jornada": 1,
+      "youtubeUrl": "https://www.youtube.com/watch?v=Zo34R2vPvog"
     },
     {
       "index": 60,
@@ -1079,7 +1095,8 @@
       "attendanceLabel": "14/19",
       "ligaproAlbumId": "28794",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/28794",
-      "jornada": 2
+      "jornada": 2,
+      "youtubeUrl": "https://www.youtube.com/watch?v=QtrHBVD4prg"
     },
     {
       "index": 61,
@@ -1093,7 +1110,8 @@
       "attendanceLabel": "12/19",
       "ligaproAlbumId": "28796",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/28796",
-      "jornada": 3
+      "jornada": 3,
+      "youtubeUrl": "https://www.youtube.com/watch?v=QAsUS0nLHk4"
     },
     {
       "index": 62,
@@ -1106,7 +1124,8 @@
       "date": "2026-08-01",
       "attendanceLabel": "14/19",
       "ligaproAlbumId": "29457",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/29457"
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/29457",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3z2OBYEXnuQ"
     },
     {
       "index": 63,
@@ -1120,7 +1139,8 @@
       "attendanceLabel": "11/20",
       "ligaproAlbumId": "30242",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30242",
-      "jornada": 1
+      "jornada": 1,
+      "youtubeUrl": "https://www.youtube.com/watch?v=fUgSqS7CSos"
     },
     {
       "index": 64,
@@ -1148,7 +1168,8 @@
       "attendanceLabel": "12/20",
       "ligaproAlbumId": "30339",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30339",
-      "jornada": 3
+      "jornada": 3,
+      "youtubeUrl": "https://www.youtube.com/watch?v=sl-pEN3zWoo"
     },
     {
       "index": 66,
@@ -1162,7 +1183,8 @@
       "attendanceLabel": "14/20",
       "ligaproAlbumId": "30250",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30250",
-      "jornada": 4
+      "jornada": 4,
+      "youtubeUrl": "https://www.youtube.com/watch?v=Et0euXVFqV8"
     },
     {
       "index": 67,
@@ -1176,7 +1198,8 @@
       "attendanceLabel": "13/20",
       "ligaproAlbumId": "30276",
       "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30276",
-      "jornada": 6
+      "jornada": 6,
+      "youtubeUrl": "https://www.youtube.com/watch?v=Lpx_w17J5vI"
     },
     {
       "index": 68,

@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { IoFootball } from "react-icons/io5";
 import { MatchResultBadge } from "@/components/MatchResultBadge";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
+import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getData } from "@/lib/data";
-import { displayPlayerName, findPlayer } from "@/lib/players";
+import {
+  displayPlayerName,
+  findPlayer,
+  resolvePlayerPhoto,
+} from "@/lib/players";
 import {
   attendanceForMatch,
   goalsForMatch,
@@ -46,6 +52,28 @@ export default async function PartidoPage({
   const attendance = attendanceForMatch(data, index);
   const photos = (data.photos ?? []).filter((p) => p.matchIndex === index);
   const embed = match.youtubeUrl ? youtubeEmbed(match.youtubeUrl) : null;
+
+  const ownGoals = goals.filter((g) => g.isOwnGoal).length;
+  const scorerMap = new Map<
+    string,
+    { key: string; count: number; playerName: string | null }
+  >();
+  for (const g of goals) {
+    if (g.isOwnGoal) continue;
+    const player = findPlayer(data, g.player);
+    const key = player?.slug ?? g.player ?? "unknown";
+    const existing = scorerMap.get(key);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      scorerMap.set(key, {
+        key,
+        count: 1,
+        playerName: player?.name ?? g.player ?? null,
+      });
+    }
+  }
+  const scorers = [...scorerMap.values()].sort((a, b) => b.count - a.count);
 
   const groups = {
     present: attendance.filter((a) => a.status === "present"),
@@ -119,57 +147,101 @@ export default async function PartidoPage({
         ) : null}
       </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-2">
-        <div>
+      <div className="mt-10 space-y-12">
+        {embed ? (
+          <section>
+            <SectionHeading title="Video" />
+            <div className="aspect-video overflow-hidden rounded-2xl border border-line">
+              <iframe
+                src={embed}
+                title={`Video vs ${match.rival}`}
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          </section>
+        ) : null}
+
+        <section>
           <SectionHeading title="Goleadores" />
-          {goals.length === 0 ? (
+          {scorers.length === 0 && ownGoals === 0 ? (
             <p className="text-muted">Sin goles registrados.</p>
           ) : (
-            <ul className="space-y-2">
-              {goals.map((g, i) => {
-                const player = findPlayer(data, g.player);
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {scorers.map((s) => {
+                const player = findPlayer(data, s.key);
+                const avatar = player
+                  ? resolvePlayerPhoto(player, data.photos)
+                  : null;
+                const name = player?.name ?? s.playerName ?? "Desconocido";
+                const row = (
+                  <>
+                    <PlayerAvatar
+                      url={avatar?.url}
+                      crop={avatar?.crop}
+                      name={name}
+                      className="h-20 w-20 rounded-full border-[3px] md:h-24 md:w-24"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="display text-2xl leading-none text-blue-deep md:text-3xl">
+                        {name}
+                      </p>
+                      <div
+                        className="mt-2 flex items-center gap-1 text-blue-deep"
+                        title={`${s.count} gol${s.count === 1 ? "" : "es"}`}
+                        aria-label={`${s.count} gol${s.count === 1 ? "" : "es"}`}
+                      >
+                        {Array.from({ length: s.count }, (_, i) => (
+                          <IoFootball key={i} className="h-7 w-7 shrink-0" />
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                );
                 return (
-                  <li
-                    key={`${g.player}-${i}`}
-                    className="surface rounded-xl px-4 py-2"
-                  >
-                    {g.isOwnGoal ? (
-                      <span>En contra</span>
-                    ) : player ? (
+                  <li key={s.key}>
+                    {player ? (
                       <Link
                         href={`/jugadores/${player.slug}`}
-                        className="font-semibold text-blue-deep"
+                        className="surface flex items-center gap-4 rounded-2xl px-4 py-4 hover:border-blue/40"
                       >
-                        {player.name}
+                        {row}
                       </Link>
                     ) : (
-                      <span className="font-semibold">
-                        {g.player ?? "Desconocido"}
-                      </span>
+                      <div className="surface flex items-center gap-4 rounded-2xl px-4 py-4">
+                        {row}
+                      </div>
                     )}
                   </li>
                 );
               })}
+              {ownGoals > 0 ? (
+                <li className="surface flex items-center gap-4 rounded-2xl px-4 py-4">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-[3px] border-line bg-paper text-sm font-bold text-muted md:h-24 md:w-24">
+                    EC
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="display text-2xl leading-none text-muted md:text-3xl">
+                      En contra
+                    </p>
+                    <div
+                      className="mt-2 flex items-center gap-1 text-muted"
+                      title={`${ownGoals} en contra`}
+                      aria-label={`${ownGoals} en contra`}
+                    >
+                      {Array.from({ length: ownGoals }, (_, i) => (
+                        <IoFootball key={i} className="h-7 w-7 shrink-0" />
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              ) : null}
             </ul>
           )}
+        </section>
 
-          {embed ? (
-            <div className="mt-8">
-              <SectionHeading title="Video" />
-              <div className="aspect-video overflow-hidden rounded-2xl border border-line">
-                <iframe
-                  src={embed}
-                  title={`Video vs ${match.rival}`}
-                  className="h-full w-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          ) : null}
-        </div>
-
-        <div>
+        <section>
           <SectionHeading title="Convocatoria" />
           {(
             [
@@ -179,32 +251,83 @@ export default async function PartidoPage({
               ["travel", "Viaje"],
               ["not_registered", "No fichados"],
             ] as const
-          ).map(([key, label]) =>
-            groups[key].length ? (
-              <div key={key} className="mb-4">
+          ).map(([key, label]) => {
+            if (!groups[key].length) return null;
+            const list = (
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {groups[key].map((a) => {
+                  const player = findPlayer(data, a.player);
+                  const name = player?.name ?? a.player;
+                  const avatar = player
+                    ? resolvePlayerPhoto(player, data.photos)
+                    : null;
+                  const showStatus = key !== "present";
+                  const content = (
+                    <>
+                      <PlayerAvatar
+                        url={avatar?.url}
+                        crop={avatar?.crop}
+                        name={name}
+                        className="h-11 w-11 rounded-full border-2"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate font-semibold text-blue-deep">
+                          {name}
+                        </p>
+                        {showStatus ? (
+                          <p className="text-xs text-muted">
+                            {statusLabel(a.status)}
+                          </p>
+                        ) : null}
+                      </div>
+                    </>
+                  );
+                  return (
+                    <li key={`${a.player}-${a.status}`}>
+                      {player ? (
+                        <Link
+                          href={`/jugadores/${player.slug}`}
+                          className="surface flex items-center gap-3 rounded-xl px-3 py-2 hover:border-blue/40"
+                        >
+                          {content}
+                        </Link>
+                      ) : (
+                        <div className="surface flex items-center gap-3 rounded-xl px-3 py-2">
+                          {content}
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            );
+
+            if (key === "not_registered") {
+              return (
+                <details key={key} className="mb-6 group">
+                  <summary className="mb-2 cursor-pointer list-none text-xs font-semibold uppercase tracking-wide text-muted marker:content-none [&::-webkit-details-marker]:hidden">
+                    <span className="inline-flex items-center gap-2">
+                      <span aria-hidden className="text-blue transition group-open:rotate-90">
+                        ›
+                      </span>
+                      {label} ({groups[key].length})
+                    </span>
+                  </summary>
+                  {list}
+                </details>
+              );
+            }
+
+            return (
+              <div key={key} className="mb-6">
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted">
                   {label} ({groups[key].length})
                 </p>
-                <div className="flex flex-wrap gap-2">
-                  {groups[key].map((a) => {
-                    const player = findPlayer(data, a.player);
-                    const labelName = player?.name ?? a.player;
-                    return (
-                      <Link
-                        key={`${a.player}-${a.status}`}
-                        href={player ? `/jugadores/${player.slug}` : "#"}
-                        className="rounded-full border border-line bg-white/80 px-3 py-1 text-sm"
-                        title={statusLabel(a.status)}
-                      >
-                        {labelName}
-                      </Link>
-                    );
-                  })}
-                </div>
+                {list}
               </div>
-            ) : null,
-          )}
-        </div>
+            );
+          })}
+        </section>
       </div>
 
       {carouselPhotos.length > 0 ? (
