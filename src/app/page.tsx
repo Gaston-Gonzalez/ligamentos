@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MatchResultBadge } from "@/components/MatchResultBadge";
+import { MatchCard } from "@/components/MatchCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StatCard } from "@/components/StatCard";
 import { getData } from "@/lib/data";
+import { coverPhotoForMatch } from "@/lib/photos";
+import { loadRivalCrests, resolveCrestUrl } from "@/lib/rivals";
 import {
   computePlayerStats,
   formatPct,
@@ -16,6 +18,7 @@ export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const data = await getData();
+  const crests = await loadRivalCrests();
   const record = teamRecord(data.matches);
   const scorers = topScorers(data, undefined, 5);
   const presence = computePlayerStats(data)
@@ -98,29 +101,18 @@ export default async function HomePage() {
             title="Últimos partidos"
             subtitle="Resultados más recientes del plantel."
           />
-          <ul className="space-y-3">
+          <div className="grid gap-3">
             {recent.map((m) => (
-              <li key={m.index}>
-                <Link
-                  href={`/partidos/${m.index}`}
-                  className="surface flex items-center justify-between gap-3 rounded-2xl px-4 py-3 transition hover:border-blue/40"
-                >
-                  <div>
-                    <p className="font-semibold text-blue-deep">vs {m.rival}</p>
-                    <p className="text-sm text-muted">
-                      {m.championship}
-                      {m.date ? ` · ${m.date}` : ""}
-                    </p>
-                  </div>
-                  <MatchResultBadge
-                    result={m.result}
-                    goalsFor={m.goalsFor}
-                    goalsAgainst={m.goalsAgainst}
-                  />
-                </Link>
-              </li>
+              <MatchCard
+                key={m.index}
+                match={m}
+                coverUrl={
+                  coverPhotoForMatch(data.photos ?? [], m)?.imageUrl
+                }
+                crestUrl={resolveCrestUrl(m.rival, crests)}
+              />
             ))}
-          </ul>
+          </div>
         </div>
 
         <div className="space-y-10">

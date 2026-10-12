@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { IoFootball } from "react-icons/io5";
 import { MatchResultBadge } from "@/components/MatchResultBadge";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StatCard } from "@/components/StatCard";
@@ -7,11 +8,11 @@ import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { getData } from "@/lib/data";
 import { displayPlayerName, resolvePlayerPhoto } from "@/lib/players";
+import { loadRivalCrests, resolveCrestUrl } from "@/lib/rivals";
 import {
   computePlayerStats,
   formatPct,
   recordString,
-  statusLabel,
 } from "@/lib/stats";
 
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export default async function JugadorPage({
 }) {
   const { slug } = await params;
   const data = await getData();
+  const crests = await loadRivalCrests();
   const player = data.players.find((p) => p.slug === slug);
   if (!player) notFound();
 
@@ -49,23 +51,32 @@ export default async function JugadorPage({
     })
     .filter((x) => x.stats && x.stats.eligible > 0);
 
+  const playerGoals = data.goals.filter(
+    (g) => matchesPlayer(player, g.player) && !g.isOwnGoal,
+  );
+
   const history = data.attendances
-    .filter((a) => matchesPlayer(player, a.player))
+    .filter((a) => matchesPlayer(player, a.player) && a.status === "present")
     .map((a) => {
-      const match = data.matches.find((m) => m.index === a.matchIndex)!;
-      return { ...a, match };
+      const match = data.matches.find((m) => m.index === a.matchIndex);
+      if (!match) return null;
+      const goalsInMatch = playerGoals.filter(
+        (g) => g.matchIndex === a.matchIndex,
+      ).length;
+      return {
+        matchIndex: a.matchIndex,
+        match,
+        goalsInMatch,
+        crestUrl: resolveCrestUrl(match.rival, crests),
+      };
     })
-    .filter((x) => x.match)
+    .filter((x): x is NonNullable<typeof x> => x != null)
     .sort((a, b) => (b.match.date ?? "").localeCompare(a.match.date ?? ""));
 
   const photos = (data.photos ?? []).filter((p) =>
     (p.taggedPlayerSlugs ?? []).includes(slug),
   );
   const avatar = resolvePlayerPhoto(player, data.photos);
-
-  const goals = data.goals.filter(
-    (g) => matchesPlayer(player, g.player) && !g.isOwnGoal,
-  );
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
@@ -87,7 +98,7 @@ export default async function JugadorPage({
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard
           label="Presencias"
           value={`${global.played}/${global.eligible}`}
@@ -102,9 +113,11 @@ export default async function JugadorPage({
           value={recordString(global.wins, global.draws, global.losses)}
           hint={`WR ${formatPct(global.winRate)}`}
         />
+        <StatCard label="Goles" value={playerGoals.length} />
         <StatCard
-          label="Goles / Racha"
-          value={`${goals.length} / ${global.longestStreak}`}
+          label="Racha"
+          value={global.longestStreak}
+          hint="Presencias seguidas"
         />
       </div>
 
@@ -145,31 +158,68 @@ export default async function JugadorPage({
       </div>
 
       <div className="mt-10">
-        <SectionHeading title="Historial" />
-        <ul className="space-y-2">
-          {history.map((h) => (
-            <li key={h.matchIndex}>
-              <Link
-                href={`/partidos/${h.matchIndex}`}
-                className="surface flex flex-wrap items-center justify-between gap-2 rounded-xl px-4 py-3"
-              >
-                <div>
-                  <p className="font-semibold">vs {h.match.rival}</p>
-                  <p className="text-sm text-muted">
-                    {h.match.championship}
-                    {h.match.date ? ` · ${h.match.date}` : ""} ·{" "}
-                    {statusLabel(h.status)}
-                  </p>
-                </div>
-                <MatchResultBadge
-                  result={h.match.result}
-                  goalsFor={h.match.goalsFor}
-                  goalsAgainst={h.match.goalsAgainst}
-                />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <SectionHeading
+          title="Historial"
+          subtitle="Partidos en los que estuvo presente."
+        />
+        {history.length === 0 ? (
+          <p className="text-sm text-muted">Sin partidos presentes cargados.</p>
+        ) : (
+          <ul className="space-y-2">
+            {history.map((h) => (
+              <li key={h.matchIndex}>
+                <Link
+                  href={`/partidos/${h.matchIndex}`}
+                  className="surface flex flex-wrap items-center justify-between gap-3 rounded-xl px-4 py-3"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-line bg-white">
+                      {h.crestUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={h.crestUrl}
+                          alt=""
+                          className="h-full w-full object-contain p-1"
+                        />
+                      ) : (
+                        <span className="text-xs font-bold text-muted">
+                          {h.match.rival.slice(0, 1)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-blue-deep">
+                        vs {h.match.rival}
+                      </p>
+                      <p className="text-sm text-muted">
+                        {h.match.championship}
+                        {h.match.date ? ` · ${h.match.date}` : ""}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {h.goalsInMatch > 0 ? (
+                      <div
+                        className="flex items-center gap-0.5 text-blue-deep"
+                        title={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
+                        aria-label={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
+                      >
+                        {Array.from({ length: h.goalsInMatch }, (_, i) => (
+                          <IoFootball key={i} className="h-5 w-5" />
+                        ))}
+                      </div>
+                    ) : null}
+                    <MatchResultBadge
+                      result={h.match.result}
+                      goalsFor={h.match.goalsFor}
+                      goalsAgainst={h.match.goalsAgainst}
+                    />
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       {photos.length > 0 ? (

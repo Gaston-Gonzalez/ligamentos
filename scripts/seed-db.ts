@@ -92,6 +92,7 @@ async function main() {
           youtubeUrl: m.youtubeUrl ?? null,
           ligaproAlbumId: m.ligaproAlbumId ?? null,
           ligaproAlbumUrl: m.ligaproAlbumUrl ?? null,
+          coverImageUrl: m.coverImageUrl ?? null,
           notes: m.notes ?? null,
         };
       }),

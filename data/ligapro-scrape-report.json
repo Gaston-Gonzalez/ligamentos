@@ -63,373 +63,94 @@
   ],
   "report": [
     {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30323,
-      "gameName": "C.A.Ankara  2 - 1 Ligamentos Cruzeiro",
-      "rival": "C.A.Ankara",
-      "matchedIndex": 68,
-      "images": 40
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30282,
-      "gameName": "Ligamentos Cruzeiro 2 - 1 Universidad ORT Uruguay",
-      "rival": "Universidad ORT Uruguay",
-      "matchedIndex": 69,
-      "images": 42
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30276,
-      "gameName": "Inter Mitente FC 2 - 0 Ligamentos Cruzeiro",
-      "rival": "Inter Mitente FC",
-      "matchedIndex": 67,
-      "images": 31
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30250,
-      "gameName": "Ligamentos Cruzeiro 3 - 2 Juana Chard",
-      "rival": "Juana Chard",
-      "matchedIndex": 66,
-      "images": 46
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30339,
-      "gameName": "Real Rejunte 3 - 1 Ligamentos Cruzeiro",
-      "rival": "Real Rejunte",
-      "matchedIndex": 65,
-      "images": 45
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30263,
-      "gameName": "Cesar Nabia FC 2 - 0 Ligamentos Cruzeiro",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 64,
-      "images": 52
-    },
-    {
-      "galleryId": 549,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
-      "gameId": 30242,
-      "gameName": "Carechimba FC 2 - 2 Ligamentos Cruzeiro",
-      "rival": "Carechimba FC",
-      "matchedIndex": 63,
-      "images": 40
-    },
-    {
-      "galleryId": 527,
-      "galleryName": "Serie 4 / Intermedio 2026  ",
-      "gameId": 29457,
-      "gameName": "Ligamentos Cruzeiro 0 - 0 Sol Oriental ",
-      "rival": "Sol Oriental",
-      "matchedIndex": 62,
-      "images": 39
-    },
-    {
-      "galleryId": 527,
-      "galleryName": "Serie 4 / Intermedio 2026  ",
-      "gameId": 28796,
-      "gameName": "Ligamentos Cruzeiro 3 - 0 Babacar FC",
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19528,
+      "gameName": "Ligamentos Cruzeiro 1 - 2 Babacar FC",
       "rival": "Babacar FC",
       "matchedIndex": 10,
-      "images": 56
-    },
-    {
-      "galleryId": 527,
-      "galleryName": "Serie 4 / Intermedio 2026  ",
-      "gameId": 28794,
-      "gameName": "Ligamentos Cruzeiro 2 - 1 Santa cruz de montevideo ",
-      "rival": "Santa cruz de montevideo",
-      "matchedIndex": 60,
-      "images": 46
-    },
-    {
-      "galleryId": 527,
-      "galleryName": "Serie 4 / Intermedio 2026  ",
-      "gameId": 28791,
-      "gameName": "Ligamentos Cruzeiro 2 - 1 Cesar Nabia FC",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 59,
-      "images": 43
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26914,
-      "gameName": "Sol Oriental  10 - 0 Ligamentos Cruzeiro",
-      "rival": "Sol Oriental",
-      "matchedIndex": 58,
-      "images": 37
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26907,
-      "gameName": "Ligamentos Cruzeiro 1 - 3 Caleruega FC",
-      "rival": "Caleruega FC",
-      "matchedIndex": 57,
       "images": 41
     },
     {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26900,
-      "gameName": "Carechimba FC 2 - 1 Ligamentos Cruzeiro",
-      "rival": "Carechimba FC",
-      "matchedIndex": 56,
-      "images": 39
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19523,
+      "gameName": "Antisiesta  3 - 3 Ligamentos Cruzeiro",
+      "rival": "Antisiesta",
+      "matchedIndex": 9,
+      "images": 38
     },
     {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26888,
-      "gameName": "Ligamentos Cruzeiro 1 - 3 Cesar Nabia FC",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 55,
-      "images": 45
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26873,
-      "gameName": "TFC 5 - 1 Ligamentos Cruzeiro",
-      "rival": "TFC",
-      "matchedIndex": 52,
-      "images": 46
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26868,
-      "gameName": "Ligamentos Cruzeiro 2 - 1 Nos Obligan a Jugar ",
-      "rival": "Nos Obligan a Jugar",
-      "matchedIndex": 51,
-      "images": 50
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26862,
-      "gameName": "Ligamentos Cruzeiro 1 - 1 Juana Chard",
-      "rival": "Juana Chard",
-      "matchedIndex": 50,
-      "images": 43
-    },
-    {
-      "galleryId": 497,
-      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
-      "gameId": 26852,
-      "gameName": "Chacal F.C 4 - 1 Ligamentos Cruzeiro",
-      "rival": "Chacal F.C",
-      "matchedIndex": 49,
-      "images": 42
-    },
-    {
-      "galleryId": 488,
-      "galleryName": "Super Copa de Verano 2026 Serie 4",
-      "gameId": 26697,
-      "gameName": "Ligamentos Cruzeiro 6 - 2 Real Rejunte",
-      "rival": "Real Rejunte",
-      "matchedIndex": 47,
-      "images": 40
-    },
-    {
-      "galleryId": 488,
-      "galleryName": "Super Copa de Verano 2026 Serie 4",
-      "gameId": 26755,
-      "gameName": "Ligamentos Cruzeiro 0 - 2 Inter Mitente FC",
-      "rival": "Inter Mitente FC",
-      "matchedIndex": 67,
-      "images": 62
-    },
-    {
-      "galleryId": 488,
-      "galleryName": "Super Copa de Verano 2026 Serie 4",
-      "gameId": 26569,
-      "gameName": "Ligamentos Cruzeiro 1 - 3 Intrepidos fc",
-      "rival": "Intrepidos fc",
-      "matchedIndex": 46,
-      "images": 43
-    },
-    {
-      "galleryId": 488,
-      "galleryName": "Super Copa de Verano 2026 Serie 4",
-      "gameId": 26568,
-      "gameName": "Cesar Nabia FC 4 - 1 Ligamentos Cruzeiro",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 45,
-      "images": 40
-    },
-    {
-      "galleryId": 488,
-      "galleryName": "Super Copa de Verano 2026 Serie 4",
-      "gameId": 26566,
-      "gameName": "Caleruega FC 1 - 2 Ligamentos Cruzeiro",
-      "rival": "Caleruega FC",
-      "matchedIndex": 44,
-      "images": 32
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25135,
-      "gameName": "Ligamentos Cruzeiro 1 - 7 Babacar FC",
-      "rival": "Babacar FC",
-      "matchedIndex": 42,
-      "images": 24
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25129,
-      "gameName": "TFC 3 - 2 Ligamentos Cruzeiro",
-      "rival": "TFC",
-      "matchedIndex": 41,
-      "images": 36
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25123,
-      "gameName": "Ligamentos Cruzeiro 2 - 6 San Diego FC",
-      "rival": "San Diego FC",
-      "matchedIndex": 40,
-      "images": 35
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25117,
-      "gameName": "Canaima City FC 8 - 2 Ligamentos Cruzeiro",
-      "rival": "Canaima City FC",
-      "matchedIndex": 39,
-      "images": 50
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25111,
-      "gameName": "Ligamentos Cruzeiro 1 - 2 Foca Juniors FC",
-      "rival": "Foca Juniors FC",
-      "matchedIndex": 38,
-      "images": 36
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25105,
-      "gameName": "Parador Tajes 4 - 2 Ligamentos Cruzeiro",
-      "rival": "Parador Tajes",
-      "matchedIndex": 37,
-      "images": 31
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25098,
-      "gameName": "La Carreta FC 3 - 2 Ligamentos Cruzeiro",
-      "rival": "La Carreta FC",
-      "matchedIndex": 36,
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19510,
+      "gameName": "Ligamentos Cruzeiro 2 - 5 La Naranja Mecánica Fútbol Club",
+      "rival": "La Naranja Mecánica Fútbol Club",
+      "matchedIndex": 8,
       "images": 33
     },
     {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25090,
-      "gameName": "Ligamentos Cruzeiro 0 - 3 Carechimba FC",
-      "rival": "Carechimba FC",
-      "matchedIndex": 35,
-      "images": 40
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19503,
+      "gameName": "Humble FC  1 - 1 Ligamentos Cruzeiro",
+      "rival": "Humble FC",
+      "matchedIndex": 7,
+      "images": 33
     },
     {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25082,
-      "gameName": "C.A.Ankara  1 - 0 Ligamentos Cruzeiro",
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19496,
+      "gameName": "Ligamentos Cruzeiro 2 - 3 C.A.Ankara ",
       "rival": "C.A.Ankara",
-      "matchedIndex": 54,
+      "matchedIndex": 6,
       "images": 38
     },
     {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25074,
-      "gameName": "Ligamentos Cruzeiro 1 - 5 Cesar Nabia FC",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 33,
-      "images": 53
-    },
-    {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25066,
-      "gameName": "Chacal F.C 2 - 2 Ligamentos Cruzeiro",
-      "rival": "Chacal F.C",
-      "matchedIndex": 32,
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19489,
+      "gameName": "La Carreta FC 2 - 0 Ligamentos Cruzeiro",
+      "rival": "La Carreta FC",
+      "matchedIndex": 5,
       "images": 40
     },
     {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25058,
-      "gameName": "Ligamentos Cruzeiro 2 - 6 Caleruega FC",
-      "rival": "Caleruega FC",
-      "matchedIndex": 31,
-      "images": 38
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19482,
+      "gameName": "Nos Obligan a Jugar  7 - 0 Ligamentos Cruzeiro",
+      "rival": "Nos Obligan a Jugar",
+      "matchedIndex": 4,
+      "images": 39
     },
     {
-      "galleryId": 461,
-      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
-      "gameId": 25050,
-      "gameName": "Ligamentos Cruzeiro 3 - 3 Kraken F.C",
-      "rival": "Kraken F.C",
-      "matchedIndex": 30,
-      "images": 45
-    },
-    {
-      "galleryId": 445,
-      "galleryName": "Copa del Rey 2025 /Serie 4",
-      "gameId": 24269,
-      "gameName": "C.A.Ankara  3 - 2 Ligamentos Cruzeiro",
-      "rival": "C.A.Ankara",
-      "matchedIndex": 29,
-      "images": 46
-    },
-    {
-      "galleryId": 445,
-      "galleryName": "Copa del Rey 2025 /Serie 4",
-      "gameId": 23844,
-      "gameName": "Ligamentos Cruzeiro 3 - 4 Cesar Nabia FC",
-      "rival": "Cesar Nabia FC",
-      "matchedIndex": 28,
-      "images": 36
-    },
-    {
-      "galleryId": 445,
-      "galleryName": "Copa del Rey 2025 /Serie 4",
-      "gameId": 23843,
-      "gameName": "Carechimba FC 3 - 1 Ligamentos Cruzeiro",
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19477,
+      "gameName": "Ligamentos Cruzeiro 0 - 1 Carechimba FC",
       "rival": "Carechimba FC",
-      "matchedIndex": 27,
-      "images": 41
-    },
-    {
-      "galleryId": 445,
-      "galleryName": "Copa del Rey 2025 /Serie 4",
-      "gameId": 23841,
-      "gameName": "Caleruega FC 3 - 1 Ligamentos Cruzeiro",
-      "rival": "Caleruega FC",
-      "matchedIndex": 57,
+      "matchedIndex": 3,
       "images": 32
+    },
+    {
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19472,
+      "gameName": "Birra Fratelli FC 3 - 1 Ligamentos Cruzeiro",
+      "rival": "Birra Fratelli FC",
+      "matchedIndex": 2,
+      "images": 29
+    },
+    {
+      "galleryId": 365,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
+      "gameId": 19467,
+      "gameName": "Ligamentos Cruzeiro 0 - 2 Cesar Nabia FC",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 1,
+      "images": 42
     },
     {
       "galleryId": 411,
@@ -563,98 +284,377 @@
       "gameId": 22577,
       "gameName": "Inter Mitente FC 12 - 1 Ligamentos Cruzeiro",
       "rival": "Inter Mitente FC",
-      "matchedIndex": 12,
+      "matchedIndex": 15,
       "images": 29
     },
     {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19528,
-      "gameName": "Ligamentos Cruzeiro 1 - 2 Babacar FC",
-      "rival": "Babacar FC",
-      "matchedIndex": 10,
+      "galleryId": 445,
+      "galleryName": "Copa del Rey 2025 /Serie 4",
+      "gameId": 24269,
+      "gameName": "C.A.Ankara  3 - 2 Ligamentos Cruzeiro",
+      "rival": "C.A.Ankara",
+      "matchedIndex": 29,
+      "images": 46
+    },
+    {
+      "galleryId": 445,
+      "galleryName": "Copa del Rey 2025 /Serie 4",
+      "gameId": 23844,
+      "gameName": "Ligamentos Cruzeiro 3 - 4 Cesar Nabia FC",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 28,
+      "images": 36
+    },
+    {
+      "galleryId": 445,
+      "galleryName": "Copa del Rey 2025 /Serie 4",
+      "gameId": 23843,
+      "gameName": "Carechimba FC 3 - 1 Ligamentos Cruzeiro",
+      "rival": "Carechimba FC",
+      "matchedIndex": 27,
       "images": 41
     },
     {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19523,
-      "gameName": "Antisiesta  3 - 3 Ligamentos Cruzeiro",
-      "rival": "Antisiesta",
-      "matchedIndex": 9,
-      "images": 38
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19510,
-      "gameName": "Ligamentos Cruzeiro 2 - 5 La Naranja Mecánica Fútbol Club",
-      "rival": "La Naranja Mecánica Fútbol Club",
-      "matchedIndex": 8,
-      "images": 33
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19503,
-      "gameName": "Humble FC  1 - 1 Ligamentos Cruzeiro",
-      "rival": "Humble FC",
-      "matchedIndex": 7,
-      "images": 33
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19496,
-      "gameName": "Ligamentos Cruzeiro 2 - 3 C.A.Ankara ",
-      "rival": "C.A.Ankara",
-      "matchedIndex": 29,
-      "images": 38
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19489,
-      "gameName": "La Carreta FC 2 - 0 Ligamentos Cruzeiro",
-      "rival": "La Carreta FC",
-      "matchedIndex": 22,
-      "images": 40
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19482,
-      "gameName": "Nos Obligan a Jugar  7 - 0 Ligamentos Cruzeiro",
-      "rival": "Nos Obligan a Jugar",
-      "matchedIndex": 4,
-      "images": 39
-    },
-    {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19477,
-      "gameName": "Ligamentos Cruzeiro 0 - 1 Carechimba FC",
-      "rival": "Carechimba FC",
-      "matchedIndex": 3,
+      "galleryId": 445,
+      "galleryName": "Copa del Rey 2025 /Serie 4",
+      "gameId": 23841,
+      "gameName": "Caleruega FC 3 - 1 Ligamentos Cruzeiro",
+      "rival": "Caleruega FC",
+      "matchedIndex": 26,
       "images": 32
     },
     {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19472,
-      "gameName": "Birra Fratelli FC 3 - 1 Ligamentos Cruzeiro",
-      "rival": "Birra Fratelli FC",
-      "matchedIndex": 2,
-      "images": 29
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25135,
+      "gameName": "Ligamentos Cruzeiro 1 - 7 Babacar FC",
+      "rival": "Babacar FC",
+      "matchedIndex": 42,
+      "images": 24
     },
     {
-      "galleryId": 365,
-      "galleryName": "Serie 4 / Divisional B / Clausura 2024",
-      "gameId": 19467,
-      "gameName": "Ligamentos Cruzeiro 0 - 2 Cesar Nabia FC",
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25129,
+      "gameName": "TFC 3 - 2 Ligamentos Cruzeiro",
+      "rival": "TFC",
+      "matchedIndex": 41,
+      "images": 36
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25123,
+      "gameName": "Ligamentos Cruzeiro 2 - 6 San Diego FC",
+      "rival": "San Diego FC",
+      "matchedIndex": 40,
+      "images": 35
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25117,
+      "gameName": "Canaima City FC 8 - 2 Ligamentos Cruzeiro",
+      "rival": "Canaima City FC",
+      "matchedIndex": 39,
+      "images": 50
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25111,
+      "gameName": "Ligamentos Cruzeiro 1 - 2 Foca Juniors FC",
+      "rival": "Foca Juniors FC",
+      "matchedIndex": 38,
+      "images": 36
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25105,
+      "gameName": "Parador Tajes 4 - 2 Ligamentos Cruzeiro",
+      "rival": "Parador Tajes",
+      "matchedIndex": 37,
+      "images": 31
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25098,
+      "gameName": "La Carreta FC 3 - 2 Ligamentos Cruzeiro",
+      "rival": "La Carreta FC",
+      "matchedIndex": 36,
+      "images": 33
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25090,
+      "gameName": "Ligamentos Cruzeiro 0 - 3 Carechimba FC",
+      "rival": "Carechimba FC",
+      "matchedIndex": 35,
+      "images": 40
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25082,
+      "gameName": "C.A.Ankara  1 - 0 Ligamentos Cruzeiro",
+      "rival": "C.A.Ankara",
+      "matchedIndex": 34,
+      "images": 38
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25074,
+      "gameName": "Ligamentos Cruzeiro 1 - 5 Cesar Nabia FC",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 33,
+      "images": 53
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25066,
+      "gameName": "Chacal F.C 2 - 2 Ligamentos Cruzeiro",
+      "rival": "Chacal F.C",
+      "matchedIndex": 32,
+      "images": 40
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25058,
+      "gameName": "Ligamentos Cruzeiro 2 - 6 Caleruega FC",
+      "rival": "Caleruega FC",
+      "matchedIndex": 31,
+      "images": 38
+    },
+    {
+      "galleryId": 461,
+      "galleryName": "Serie 4 / Divisional B /Clausura 2025",
+      "gameId": 25050,
+      "gameName": "Ligamentos Cruzeiro 3 - 3 Kraken F.C",
+      "rival": "Kraken F.C",
+      "matchedIndex": 30,
+      "images": 45
+    },
+    {
+      "galleryId": 488,
+      "galleryName": "Super Copa de Verano 2026 Serie 4",
+      "gameId": 26697,
+      "gameName": "Ligamentos Cruzeiro 6 - 2 Real Rejunte",
+      "rival": "Real Rejunte",
+      "matchedIndex": 47,
+      "images": 40
+    },
+    {
+      "galleryId": 488,
+      "galleryName": "Super Copa de Verano 2026 Serie 4",
+      "gameId": 26755,
+      "gameName": "Ligamentos Cruzeiro 0 - 2 Inter Mitente FC",
+      "rival": "Inter Mitente FC",
+      "matchedIndex": 48,
+      "images": 62
+    },
+    {
+      "galleryId": 488,
+      "galleryName": "Super Copa de Verano 2026 Serie 4",
+      "gameId": 26569,
+      "gameName": "Ligamentos Cruzeiro 1 - 3 Intrepidos fc",
+      "rival": "Intrepidos fc",
+      "matchedIndex": 46,
+      "images": 43
+    },
+    {
+      "galleryId": 488,
+      "galleryName": "Super Copa de Verano 2026 Serie 4",
+      "gameId": 26568,
+      "gameName": "Cesar Nabia FC 4 - 1 Ligamentos Cruzeiro",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 45,
+      "images": 40
+    },
+    {
+      "galleryId": 488,
+      "galleryName": "Super Copa de Verano 2026 Serie 4",
+      "gameId": 26566,
+      "gameName": "Caleruega FC 1 - 2 Ligamentos Cruzeiro",
+      "rival": "Caleruega FC",
+      "matchedIndex": 44,
+      "images": 32
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26914,
+      "gameName": "Sol Oriental  10 - 0 Ligamentos Cruzeiro",
+      "rival": "Sol Oriental",
+      "matchedIndex": 58,
+      "images": 37
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26907,
+      "gameName": "Ligamentos Cruzeiro 1 - 3 Caleruega FC",
+      "rival": "Caleruega FC",
+      "matchedIndex": 57,
+      "images": 41
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26900,
+      "gameName": "Carechimba FC 2 - 1 Ligamentos Cruzeiro",
+      "rival": "Carechimba FC",
+      "matchedIndex": 56,
+      "images": 39
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26888,
+      "gameName": "Ligamentos Cruzeiro 1 - 3 Cesar Nabia FC",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 55,
+      "images": 45
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26873,
+      "gameName": "TFC 5 - 1 Ligamentos Cruzeiro",
+      "rival": "TFC",
+      "matchedIndex": 52,
+      "images": 46
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26868,
+      "gameName": "Ligamentos Cruzeiro 2 - 1 Nos Obligan a Jugar ",
+      "rival": "Nos Obligan a Jugar",
+      "matchedIndex": 51,
+      "images": 50
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26862,
+      "gameName": "Ligamentos Cruzeiro 1 - 1 Juana Chard",
+      "rival": "Juana Chard",
+      "matchedIndex": 50,
+      "images": 43
+    },
+    {
+      "galleryId": 497,
+      "galleryName": "Serie 4 / Divisional B/ Apertura 2026",
+      "gameId": 26852,
+      "gameName": "Chacal F.C 4 - 1 Ligamentos Cruzeiro",
+      "rival": "Chacal F.C",
+      "matchedIndex": 49,
+      "images": 42
+    },
+    {
+      "galleryId": 527,
+      "galleryName": "Serie 4 / Intermedio 2026  ",
+      "gameId": 29457,
+      "gameName": "Ligamentos Cruzeiro 0 - 0 Sol Oriental ",
+      "rival": "Sol Oriental",
+      "matchedIndex": 62,
+      "images": 39
+    },
+    {
+      "galleryId": 527,
+      "galleryName": "Serie 4 / Intermedio 2026  ",
+      "gameId": 28796,
+      "gameName": "Ligamentos Cruzeiro 3 - 0 Babacar FC",
+      "rival": "Babacar FC",
+      "matchedIndex": 61,
+      "images": 56
+    },
+    {
+      "galleryId": 527,
+      "galleryName": "Serie 4 / Intermedio 2026  ",
+      "gameId": 28794,
+      "gameName": "Ligamentos Cruzeiro 2 - 1 Santa cruz de montevideo ",
+      "rival": "Santa cruz de montevideo",
+      "matchedIndex": 60,
+      "images": 46
+    },
+    {
+      "galleryId": 527,
+      "galleryName": "Serie 4 / Intermedio 2026  ",
+      "gameId": 28791,
+      "gameName": "Ligamentos Cruzeiro 2 - 1 Cesar Nabia FC",
+      "rival": "Cesar Nabia FC",
+      "matchedIndex": 59,
+      "images": 43
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30323,
+      "gameName": "C.A.Ankara  2 - 1 Ligamentos Cruzeiro",
+      "rival": "C.A.Ankara",
+      "matchedIndex": 68,
+      "images": 40
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30282,
+      "gameName": "Ligamentos Cruzeiro 2 - 1 Universidad ORT Uruguay",
+      "rival": "Universidad ORT Uruguay",
+      "matchedIndex": 69,
+      "images": 42
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30276,
+      "gameName": "Inter Mitente FC 2 - 0 Ligamentos Cruzeiro",
+      "rival": "Inter Mitente FC",
+      "matchedIndex": 67,
+      "images": 31
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30250,
+      "gameName": "Ligamentos Cruzeiro 3 - 2 Juana Chard",
+      "rival": "Juana Chard",
+      "matchedIndex": 66,
+      "images": 46
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30339,
+      "gameName": "Real Rejunte 3 - 1 Ligamentos Cruzeiro",
+      "rival": "Real Rejunte",
+      "matchedIndex": 65,
+      "images": 45
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30263,
+      "gameName": "Cesar Nabia FC 2 - 0 Ligamentos Cruzeiro",
       "rival": "Cesar Nabia FC",
       "matchedIndex": 64,
-      "images": 42
+      "images": 52
+    },
+    {
+      "galleryId": 549,
+      "galleryName": "Serie 4 / Divisional B / Clausura 2026",
+      "gameId": 30242,
+      "gameName": "Carechimba FC 2 - 2 Ligamentos Cruzeiro",
+      "rival": "Carechimba FC",
+      "matchedIndex": 63,
+      "images": 40
     }
   ]
 }

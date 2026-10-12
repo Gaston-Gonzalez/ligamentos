@@ -126,20 +126,33 @@ function championshipSlugFromTournament(
   seed: SeedData,
   tournament: string,
 ): string | null {
-  const t = tournament.toLowerCase();
+  const t = tournament.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const scored = seed.championships.map((c) => {
-    const n = c.name.toLowerCase();
+    const n = c.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     let score = 0;
     if (t.includes("clausura") && n.includes("clausura")) score += 2;
     if (t.includes("apertura") && n.includes("apertura")) score += 2;
-    if (t.includes("verano") && n.includes("verano")) score += 2;
+    if ((t.includes("verano") || t.includes("super copa")) && n.includes("verano"))
+      score += 2;
     if (t.includes("copa del rey") && n.includes("copa del rey")) score += 3;
-    if (t.includes("intermedio") && n.includes("intermedio")) score += 2;
+    if (t.includes("intermedio") && (n.includes("intermedio") || n.includes("intemedio")))
+      score += 2;
     if (t.includes("final") && n.includes("final")) score += 2;
-    if (t.includes("2026") && (n.includes("26") || n === "clausura" || n === "apertura" || n === "intermedio"))
-      score += 1;
-    if (t.includes("2025") && n.includes("25")) score += 2;
-    if (t.includes("2024") && n.includes("24")) score += 2;
+    // Year: prefer exact season labels in seed ("Clausura 24", "Clausura 25", bare "Clausura" = 2026)
+    if (t.includes("2024")) {
+      if (n.includes("24")) score += 4;
+      else if (/\b25\b|\b26\b/.test(n) || n === "clausura" || n === "apertura" || n === "intermedio")
+        score -= 3;
+    } else if (t.includes("2025")) {
+      if (n.includes("25")) score += 4;
+      else if (n.includes("24") || n.includes("26") || n === "clausura" || n === "apertura")
+        score -= 3;
+    } else if (t.includes("2026")) {
+      if (n.includes("26")) score += 4;
+      else if (n === "clausura" || n === "apertura" || n === "intermedio" || n === "intemedio")
+        score += 3;
+      else if (n.includes("24") || n.includes("25")) score -= 3;
+    }
     return { slug: c.slug, score, name: c.name };
   });
   scored.sort((a, b) => b.score - a.score);
@@ -151,6 +164,10 @@ function matchSeedMatch(
   rival: string,
   goalsFor: number | null,
   goalsAgainst: number | null,
+  opts?: {
+    championshipSlug?: string | null;
+    claimed?: Set<number>;
+  },
 ): number | null {
   const nr = normalizeRival(rival);
   if (!nr) return null;
@@ -161,7 +178,6 @@ function matchSeedMatch(
   });
 
   if (candidates.length === 0) {
-    // fuzzy: compare first significant token
     const token = nr.split(" ")[0];
     if (token.length >= 4) {
       candidates = seed.matches.filter((m) =>
@@ -170,17 +186,47 @@ function matchSeedMatch(
     }
   }
 
-  if (candidates.length === 1) return candidates[0].index;
-
-  if (goalsFor != null && goalsAgainst != null) {
-    const scored = candidates.filter(
-      (m) => m.goalsFor === goalsFor && m.goalsAgainst === goalsAgainst,
+  if (opts?.championshipSlug) {
+    const champ = seed.championships.find(
+      (c) => c.slug === opts.championshipSlug,
     );
-    if (scored.length === 1) return scored[0].index;
-    if (scored.length > 1) return scored[scored.length - 1].index;
+    if (champ) {
+      const inChamp = candidates.filter((m) => m.championship === champ.name);
+      if (inChamp.length > 0) candidates = inChamp;
+    }
   }
 
-  return candidates[0]?.index ?? null;
+  const unclaimed = opts?.claimed
+    ? candidates.filter((m) => !opts.claimed!.has(m.index))
+    : candidates;
+  const pool = unclaimed.length > 0 ? unclaimed : candidates;
+  if (pool.length === 0) return null;
+  if (pool.length === 1) return pool[0].index;
+
+  if (goalsFor != null && goalsAgainst != null) {
+    const exact = pool.filter(
+      (m) => m.goalsFor === goalsFor && m.goalsAgainst === goalsAgainst,
+    );
+    if (exact.length === 1) return exact[0].index;
+    if (exact.length > 1) {
+      // Oldest first so newer scrapes keep newer matches when claimed.
+      return [...exact].sort((a, b) =>
+        (a.date ?? "").localeCompare(b.date ?? ""),
+      )[0].index;
+    }
+    // Soft: same rival/torneo, score off by 1 (Liga Pro typos e.g. 12-1 vs 1-13)
+    const soft = pool.filter(
+      (m) =>
+        Math.abs(m.goalsFor - goalsFor) +
+          Math.abs(m.goalsAgainst - goalsAgainst) ===
+        1,
+    );
+    if (soft.length === 1) return soft[0].index;
+  }
+
+  // Last resort: single remaining rival in this tournament
+  if (pool.length === 1) return pool[0].index;
+  return null;
 }
 
 function tokenOverlap(a: string, b: string): boolean {
@@ -235,8 +281,12 @@ async function main() {
     number,
     { ligaproAlbumId: string; ligaproAlbumUrl: string; jornada?: number | null }
   > = {};
+  const claimedMatchIndexes = new Set<number>();
 
-  for (const g of relevant) {
+  // Oldest galleries first so early seasons claim their matches before newer twins.
+  const galleriesOrdered = [...relevant].sort((a, b) => a.id - b.id);
+
+  for (const g of galleriesOrdered) {
     console.log(`Gallery ${g.id}: ${g.name}`);
     await sleep(DELAY_MS);
     let detail: GalleryDetail;
@@ -281,7 +331,12 @@ async function main() {
           rival,
           goalsFor,
           goalsAgainst,
+          {
+            championshipSlug: champSlug,
+            claimed: claimedMatchIndexes,
+          },
         );
+        if (matchIndex != null) claimedMatchIndexes.add(matchIndex);
 
         let imageUrls: string[] = [];
         try {
@@ -345,7 +400,12 @@ async function main() {
 
   for (const m of seed.matches) {
     const upd = matchUpdates[m.index];
-    if (!upd) continue;
+    if (!upd) {
+      // Drop stale album links so wrong-season URLs don't linger.
+      m.ligaproAlbumId = null;
+      m.ligaproAlbumUrl = null;
+      continue;
+    }
     m.ligaproAlbumId = upd.ligaproAlbumId;
     m.ligaproAlbumUrl = upd.ligaproAlbumUrl;
     if (upd.jornada != null) m.jornada = upd.jornada;

@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { MatchResultBadge } from "@/components/MatchResultBadge";
+import { MatchCard } from "@/components/MatchCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getData } from "@/lib/data";
+import { coverPhotoForMatch } from "@/lib/photos";
+import { loadRivalCrests, resolveCrestUrl } from "@/lib/rivals";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Partidos" };
@@ -13,6 +15,7 @@ export default async function PartidosPage({
 }) {
   const { campeonato } = await searchParams;
   const data = await getData();
+  const crests = await loadRivalCrests();
   const champ = campeonato
     ? data.championships.find((c) => c.slug === campeonato)
     : null;
@@ -50,31 +53,16 @@ export default async function PartidosPage({
           </Link>
         ))}
       </div>
-      <ul className="space-y-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {matches.map((m) => (
-          <li key={m.index}>
-            <Link
-              href={`/partidos/${m.index}`}
-              className="surface flex items-center justify-between gap-3 rounded-2xl px-4 py-3 hover:border-blue/40"
-            >
-              <div>
-                <p className="font-semibold text-blue-deep">vs {m.rival}</p>
-                <p className="text-sm text-muted">
-                  {m.championship}
-                  {m.date ? ` · ${m.date}` : ""}
-                  {m.pitch ? ` · Cancha ${m.pitch}` : ""}
-                  {m.youtubeUrl ? " · Video" : ""}
-                </p>
-              </div>
-              <MatchResultBadge
-                result={m.result}
-                goalsFor={m.goalsFor}
-                goalsAgainst={m.goalsAgainst}
-              />
-            </Link>
-          </li>
+          <MatchCard
+            key={m.index}
+            match={m}
+            coverUrl={coverPhotoForMatch(data.photos ?? [], m)?.imageUrl}
+            crestUrl={resolveCrestUrl(m.rival, crests)}
+          />
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

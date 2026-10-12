@@ -9,6 +9,7 @@
     "lint": "eslint",
     "seed:parse": "tsx scripts/parse-excel.ts",
     "scrape:ligapro": "tsx scripts/scrape-ligapro.ts",
+    "scrape:crests": "tsx scripts/scrape-rival-crests.ts",
     "import:drive-final25": "tsx scripts/import-drive-final25.ts",
     "db:push": "drizzle-kit push",
     "seed:db": "tsx scripts/seed-db.ts"
@@ -22,6 +23,7 @@
     "next": "16.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "react-icons": "^5.7.0",
     "slugify": "^1.6.9",
     "zod": "^4.6.6"
   },

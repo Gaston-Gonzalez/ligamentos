@@ -34,7 +34,16 @@ function groupPhotosByMatch(
   }
 
   return [...groups.entries()]
-    .map(([key, g]) => ({ key, ...g }))
+    .map(([key, g]) => ({
+      key,
+      ...g,
+      photos: [...g.photos].sort((a, b) => {
+        const ta = a.imageUrl.match(/\/(\d{9,12})[-_]/)?.[1] ?? "0";
+        const tb = b.imageUrl.match(/\/(\d{9,12})[-_]/)?.[1] ?? "0";
+        if (ta !== tb) return Number(tb) - Number(ta);
+        return (b.sortOrder ?? 0) - (a.sortOrder ?? 0);
+      }),
+    }))
     .sort((a, b) => {
       if (!a.match && !b.match) return 0;
       if (!a.match) return 1;

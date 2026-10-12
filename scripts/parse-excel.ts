@@ -15,16 +15,20 @@ const PLAYER_ALIASES: Record<string, string> = {
   fuci: "Fuci",
   pons: "Lea Pons",
   "lea pons": "Lea Pons",
-  gordo: "Gordo Azadian",
-  "gordo azadian": "Gordo Azadian",
+  gordo: "Gordo",
+  "gordo azadian": "Gordo",
   tomy: "Tomy Presi",
   "tomy presi": "Tomy Presi",
-  tonga: "Tonga G",
-  "tonga g": "Tonga G",
-  pita: "Pita #25",
-  "pita #25": "Pita #25",
+  tonga: "Tonga",
+  "tonga g": "Tonga",
+  pita: "Pita",
+  "pita #25": "Pita",
   more: "More",
   "more .": "More",
+  "panchein tauber": "Pancho",
+  "j r": "Jota",
+  rodri: "RN",
+  rn: "RN",
   noj: "Nos Obligan a Jugar",
 };
 
@@ -189,8 +193,6 @@ function main() {
       existing.aliases = [...new Set([...existing.aliases, ...p.aliases])];
     }
   }
-  const uniquePlayers = [...playerMap.values()];
-
   const attendances: {
     matchIndex: number;
     player: string;
@@ -219,12 +221,13 @@ function main() {
     if (!Number.isFinite(matchIndex)) continue;
 
     const goalsFor = Number(cell(goles, 3, r) ?? 0);
-    // scorers start at column F (index 5)
-    for (let c = 5; c < 5 + Math.max(goalsFor, 12); c++) {
+    // Scorers only in F–M (5–12). Columns N+ are a season summary (not match goals).
+    for (let c = 5; c <= 12; c++) {
       const scorerRaw = cell(goles, c, r);
-      if (scorerRaw == null || scorerRaw === "") continue;
+      if (scorerRaw == null || scorerRaw === "") break;
       const scorer = String(scorerRaw).trim();
-      if (!scorer) continue;
+      if (!scorer) break;
+      if (/^\d+(\.\d+)?$/.test(scorer)) continue;
       if (scorer.toLowerCase().includes("en contra")) {
         goals.push({ matchIndex, player: null, isOwnGoal: true });
       } else {
@@ -254,6 +257,19 @@ function main() {
     }
   }
 
+  // Ensure scorers who aren't on the attendance roster exist as players.
+  for (const g of goals) {
+    if (!g.player || g.isOwnGoal) continue;
+    if (!playerMap.has(g.player)) {
+      playerMap.set(g.player, {
+        name: g.player,
+        slug: slugify(g.player),
+        aliases: [],
+      });
+    }
+  }
+  const playersOut = [...playerMap.values()];
+
   const championships = [...championshipNames].map((name) => ({
     name,
     slug: slugify(name),
@@ -264,7 +280,7 @@ function main() {
     source: path.basename(xlsxPath),
     team: "Ligamentos Cruzeiro",
     championships,
-    players: uniquePlayers,
+    players: playersOut,
     matches: matches.map(({ col: _col, ...rest }) => rest),
     attendances,
     goals,
@@ -275,7 +291,7 @@ function main() {
   const outPath = path.join(outDir, "seed.json");
   fs.writeFileSync(outPath, JSON.stringify(seed, null, 2), "utf8");
   console.log(
-    `Wrote ${outPath}: ${uniquePlayers.length} players, ${matches.length} matches, ${attendances.length} attendance rows, ${goals.length} goals, ${championships.length} championships`,
+    `Wrote ${outPath}: ${playersOut.length} players, ${matches.length} matches, ${attendances.length} attendance rows, ${goals.length} goals, ${championships.length} championships`,
   );
 }
 

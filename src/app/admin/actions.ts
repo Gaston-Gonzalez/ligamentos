@@ -387,6 +387,8 @@ export async function updateMatchAction(formData: FormData) {
   const youtubeUrl = String(formData.get("youtubeUrl") ?? "").trim() || null;
   const ligaproAlbumUrl =
     String(formData.get("ligaproAlbumUrl") ?? "").trim() || null;
+  const coverImageUrl =
+    String(formData.get("coverImageUrl") ?? "").trim() || null;
   const championshipName = String(formData.get("championship") ?? "").trim();
   const goalEntries = parseGoalEntries(formData);
   const attEntries = parseAttendanceEntries(formData);
@@ -419,6 +421,7 @@ export async function updateMatchAction(formData: FormData) {
         jornada,
         youtubeUrl,
         ligaproAlbumUrl,
+        coverImageUrl,
         championshipId: champ?.id ?? match.championshipId,
       })
       .where(eq(matches.id, match.id));
@@ -437,6 +440,7 @@ export async function updateMatchAction(formData: FormData) {
     m.jornada = jornada;
     m.youtubeUrl = youtubeUrl;
     m.ligaproAlbumUrl = ligaproAlbumUrl;
+    m.coverImageUrl = coverImageUrl;
     m.championship = championshipName;
     await saveMatchGoals(null, index, null, goalEntries, seed);
     await saveMatchAttendance(null, index, null, attEntries, seed);

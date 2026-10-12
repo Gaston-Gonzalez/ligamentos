@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MatchResultBadge } from "@/components/MatchResultBadge";
+import { MatchCard } from "@/components/MatchCard";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StatCard } from "@/components/StatCard";
 import { getData } from "@/lib/data";
+import { coverPhotoForMatch, sortPhotosNewestFirst } from "@/lib/photos";
+import { loadRivalCrests, resolveCrestUrl } from "@/lib/rivals";
 import {
   computePlayerStats,
   formatPct,
@@ -21,12 +23,13 @@ export default async function CampeonatoDetailPage({
 }) {
   const { slug } = await params;
   const data = await getData();
+  const crests = await loadRivalCrests();
   const championship = data.championships.find((c) => c.slug === slug);
   if (!championship) notFound();
 
   const matches = data.matches
     .filter((m) => m.championship === championship.name)
-    .sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
+    .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
   const record = teamRecord(matches);
   const scorers = topScorers(data, slug, 10);
   const presence = computePlayerStats(data, slug)
@@ -39,10 +42,13 @@ export default async function CampeonatoDetailPage({
     return { pitch, ...teamRecord(subset) };
   }).filter((x) => x.played > 0);
 
-  const photos = (data.photos ?? []).filter(
-    (p) =>
-      p.championshipSlug === slug ||
-      matches.some((m) => m.index === p.matchIndex),
+  const photos = sortPhotosNewestFirst(
+    (data.photos ?? []).filter(
+      (p) =>
+        p.championshipSlug === slug ||
+        matches.some((m) => m.index === p.matchIndex),
+    ),
+    data.matches,
   );
 
   return (
@@ -109,64 +115,52 @@ export default async function CampeonatoDetailPage({
         </div>
       ) : null}
 
+      <div className="mt-10">
+        <SectionHeading title="Partidos" />
+        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {matches.map((m) => (
+            <MatchCard
+              key={m.index}
+              match={m}
+              coverUrl={
+                coverPhotoForMatch(data.photos ?? [], m)?.imageUrl
+              }
+              crestUrl={resolveCrestUrl(m.rival, crests)}
+            />
+          ))}
+        </div>
+      </div>
+
       <div className="mt-10 grid gap-10 lg:grid-cols-2">
         <div>
-          <SectionHeading title="Partidos" />
-          <ul className="space-y-2">
-            {matches.map((m) => (
-              <li key={m.index}>
-                <Link
-                  href={`/partidos/${m.index}`}
-                  className="surface flex items-center justify-between rounded-xl px-4 py-3 hover:border-blue/40"
-                >
-                  <div>
-                    <p className="font-semibold">vs {m.rival}</p>
-                    <p className="text-sm text-muted">
-                      {m.date ?? "Sin fecha"}
-                      {m.pitch ? ` · Cancha ${m.pitch}` : ""}
-                    </p>
-                  </div>
-                  <MatchResultBadge
-                    result={m.result}
-                    goalsFor={m.goalsFor}
-                    goalsAgainst={m.goalsAgainst}
-                  />
-                </Link>
+          <SectionHeading title="Goleadores" />
+          <ul className="mt-3 space-y-2">
+            {scorers.map((s) => (
+              <li
+                key={s.player.slug}
+                className="surface flex justify-between rounded-xl px-4 py-2"
+              >
+                <Link href={`/jugadores/${s.player.slug}`}>{s.player.name}</Link>
+                <span className="font-bold text-blue">{s.goals}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="space-y-8">
-          <div>
-            <SectionHeading title="Goleadores" />
-            <ul className="space-y-2">
-              {scorers.map((s) => (
-                <li
-                  key={s.player.slug}
-                  className="surface flex justify-between rounded-xl px-4 py-2"
-                >
-                  <Link href={`/jugadores/${s.player.slug}`}>{s.player.name}</Link>
-                  <span className="font-bold text-blue">{s.goals}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <SectionHeading title="Asistencia" />
-            <ul className="space-y-2">
-              {presence.map((p) => (
-                <li
-                  key={p.playerSlug}
-                  className="surface flex justify-between rounded-xl px-4 py-2 text-sm"
-                >
-                  <Link href={`/jugadores/${p.playerSlug}`}>{p.playerName}</Link>
-                  <span className="text-muted">
-                    {p.played}/{p.eligible} · {formatPct(p.attendancePct)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div>
+          <SectionHeading title="Asistencia" />
+          <ul className="mt-3 space-y-2">
+            {presence.map((p) => (
+              <li
+                key={p.playerSlug}
+                className="surface flex justify-between rounded-xl px-4 py-2 text-sm"
+              >
+                <Link href={`/jugadores/${p.playerSlug}`}>{p.playerName}</Link>
+                <span className="text-muted">
+                  {p.played}/{p.eligible} · {formatPct(p.attendancePct)}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

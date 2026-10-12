@@ -51,6 +51,8 @@ export const matches = pgTable("matches", {
   youtubeUrl: text("youtube_url"),
   ligaproAlbumId: varchar("ligapro_album_id", { length: 40 }),
   ligaproAlbumUrl: text("ligapro_album_url"),
+  /** Cover image for match cards (usually a Liga Pro photo URL). */
+  coverImageUrl: text("cover_image_url"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

@@ -12,6 +12,7 @@ import {
   photos,
   players,
 } from "@/db/schema";
+import { sortPhotosNewestFirst } from "./photos";
 import { parsePhotoCrop } from "./players";
 import type { SeedData, SeedPhoto } from "./types";
 
@@ -61,6 +62,7 @@ async function loadJsonSeed(): Promise<SeedData> {
     seen.add(p.imageUrl);
     return true;
   });
+  merged.photos = sortPhotosNewestFirst(merged.photos, merged.matches);
 
   return merged;
 }
@@ -98,7 +100,7 @@ async function loadFromDatabase(): Promise<SeedData> {
     tagsByPhoto.set(t.photoId, list);
   }
 
-  return {
+  const data: SeedData = {
     team: "Ligamentos Cruzeiro",
     championships: championshipRows.map((c) => ({
       name: c.name,
@@ -133,6 +135,7 @@ async function loadFromDatabase(): Promise<SeedData> {
         youtubeUrl: m.youtubeUrl,
         ligaproAlbumId: m.ligaproAlbumId,
         ligaproAlbumUrl: m.ligaproAlbumUrl,
+        coverImageUrl: m.coverImageUrl,
         notes: m.notes,
       };
     }),
@@ -170,6 +173,8 @@ async function loadFromDatabase(): Promise<SeedData> {
       };
     }),
   };
+  data.photos = sortPhotosNewestFirst(data.photos ?? [], data.matches);
+  return data;
 }
 
 export const getData = cache(async (): Promise<SeedData> => {
@@ -200,20 +205,29 @@ export async function getMatchByIndex(index: number) {
 
 export async function getPhotosForMatch(matchIndex: number) {
   const data = await getData();
-  return (data.photos ?? []).filter((p) => p.matchIndex === matchIndex);
+  return sortPhotosNewestFirst(
+    (data.photos ?? []).filter((p) => p.matchIndex === matchIndex),
+    data.matches,
+  );
 }
 
 export async function getPhotosForPlayer(playerSlug: string) {
   const data = await getData();
-  return (data.photos ?? []).filter((p) =>
-    (p.taggedPlayerSlugs ?? []).includes(playerSlug),
+  return sortPhotosNewestFirst(
+    (data.photos ?? []).filter((p) =>
+      (p.taggedPlayerSlugs ?? []).includes(playerSlug),
+    ),
+    data.matches,
   );
 }
 
 export async function getPhotosForChampionship(championshipSlug: string) {
   const data = await getData();
-  return (data.photos ?? []).filter(
-    (p) => p.championshipSlug === championshipSlug,
+  return sortPhotosNewestFirst(
+    (data.photos ?? []).filter(
+      (p) => p.championshipSlug === championshipSlug,
+    ),
+    data.matches,
   );
 }
 

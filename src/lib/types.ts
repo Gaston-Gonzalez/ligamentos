@@ -48,6 +48,7 @@ export interface SeedMatch {
   youtubeUrl?: string | null;
   ligaproAlbumId?: string | null;
   ligaproAlbumUrl?: string | null;
+  coverImageUrl?: string | null;
   notes?: string | null;
 }
 

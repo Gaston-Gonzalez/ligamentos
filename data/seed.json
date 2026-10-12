@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-12T04:02:08.867Z",
+  "generatedAt": "2026-10-12T14:44:24.085Z",
   "source": "Asistencia de Jugadores.xlsx",
   "team": "Ligamentos Cruzeiro",
   "championships": [
@@ -35,9 +35,7 @@
     },
     {
       "name": "Final 25",
-      "slug": "final-25",
-      "ligaproUrl": null,
-      "ligaproGalleryUrl": "https://drive.google.com/drive/folders/1BTtUdm9mlKpPqPn07WUnhqSpUCSGbiFd?usp=sharing"
+      "slug": "final-25"
     },
     {
       "name": "Verano 26",
@@ -46,19 +44,23 @@
       "ligaproUrl": "https://www.ligapro.uy/campeonatos/488"
     },
     {
-      "name": "Apertura 26",
+      "name": "Apertura",
       "slug": "apertura",
       "ligaproGalleryUrl": "https://www.ligapro.uy/galeria/497",
       "ligaproUrl": "https://www.ligapro.uy/campeonatos/497"
     },
     {
-      "name": "Intermedio 26",
+      "name": "Intermedio",
       "slug": "intermedio",
       "ligaproGalleryUrl": "https://www.ligapro.uy/galeria/527",
       "ligaproUrl": "https://www.ligapro.uy/campeonatos/527"
     },
     {
-      "name": "Clausura 26",
+      "name": "Intemedio",
+      "slug": "intemedio"
+    },
+    {
+      "name": "Clausura",
       "slug": "clausura",
       "ligaproGalleryUrl": "https://www.ligapro.uy/galeria/549",
       "ligaproUrl": "https://www.ligapro.uy/campeonatos/549"
@@ -68,16 +70,7 @@
     {
       "name": "German",
       "slug": "german",
-      "aliases": [],
-      "number": 3,
-      "position": "Volante",
-      "photoUrl": "https://r2.ligapro.uy/galeria/1788734186-2W6A2839.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": 0,
-        "y": 0,
-        "zoom": 3
-      }
+      "aliases": []
     },
     {
       "name": "Juani",
@@ -86,79 +79,34 @@
         "juani",
         "juani .",
         "Juani ."
-      ],
-      "number": 10,
-      "position": "Volante",
-      "photoUrl": "https://r2.ligapro.uy/galeria/1785679796-DANIRODRIGUEZPH-420.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": -1.481487132884838,
-        "y": 11.481489958586517,
-        "zoom": 1.35
-      }
+      ]
     },
     {
       "name": "Pancho",
-      "slug": "panchein-tauber",
+      "slug": "pancho",
       "aliases": [
-        "Panchein Tauber",
-        "panchein tauber"
-      ],
-      "number": 16,
-      "position": "Golero",
-      "photoUrl": "/fotos/final-25/058-1NMNUeWU6OswDnpEYw9FPhrcpia22Ogvd.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": -12.222233525028935,
-        "y": -15.92593722873264,
-        "zoom": 2.95
-      }
+        "panchein tauber",
+        "Panchein Tauber"
+      ]
     },
     {
       "name": "Juan",
       "slug": "juan",
-      "aliases": [],
-      "number": 2,
-      "position": "Nueve",
-      "photoUrl": "https://r2.ligapro.uy/galeria/1772900899-2W6A7289.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": 0,
-        "y": 0,
-        "zoom": 1.65
-      }
+      "aliases": []
     },
     {
       "name": "Mati",
       "slug": "mati",
-      "aliases": [],
-      "number": 40,
-      "position": "Cinco",
-      "photoUrl": "https://r2.ligapro.uy/galeria/1791171887-2W6A8306.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": -3.7037037037037033,
-        "y": 5.555555555555555,
-        "zoom": 1.35
-      }
+      "aliases": []
     },
     {
       "name": "Tonga",
-      "slug": "tonga-g",
+      "slug": "tonga",
       "aliases": [
         "tonga",
         "tonga g",
         "Tonga G"
-      ],
-      "number": 22,
-      "position": "Zaguero",
-      "photoUrl": "/fotos/final-25/058-1NMNUeWU6OswDnpEYw9FPhrcpia22Ogvd.jpg",
-      "active": true,
-      "photoCrop": {
-        "x": 13.70369240089699,
-        "y": -18.148111414026328,
-        "zoom": 3
-      }
+      ]
     },
     {
       "name": "Tomy Presi",
@@ -166,24 +114,16 @@
       "aliases": [
         "tomy",
         "tomy presi"
-      ],
-      "number": 17,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      ]
     },
     {
       "name": "Pita",
-      "slug": "pita-25",
+      "slug": "pita",
       "aliases": [
         "pita",
-        "Pita #25",
-        "pita #25"
-      ],
-      "number": 25,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+        "pita #25",
+        "Pita #25"
+      ]
     },
     {
       "name": "More",
@@ -192,117 +132,69 @@
         "more",
         "more .",
         "More ."
-      ],
-      "number": 21,
-      "position": "Zaguero",
-      "photoUrl": null,
-      "active": true
+      ]
     },
     {
       "name": "Ivo",
       "slug": "ivo",
-      "aliases": [],
-      "number": 18,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Sanso",
       "slug": "sanso",
-      "aliases": [],
-      "number": 31,
-      "position": "Nueve",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Juanba",
       "slug": "juanba",
-      "aliases": [],
-      "number": 5,
-      "position": "Zaguero",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Jota",
-      "slug": "j-r",
+      "slug": "jota",
       "aliases": [
-        "J R",
-        "j r"
-      ],
-      "number": 6,
-      "position": "Zaguero",
-      "photoUrl": null,
-      "active": true
+        "j r",
+        "J R"
+      ]
     },
     {
       "name": "Nacho",
       "slug": "nacho",
-      "aliases": [],
-      "number": 42,
-      "position": "Cinco",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Salsa",
       "slug": "salsa",
-      "aliases": [],
-      "number": 80,
-      "position": "Nueve",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Patron",
       "slug": "patron",
-      "aliases": [],
-      "number": 8,
-      "position": "Cinco",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Fede",
       "slug": "fede",
-      "aliases": [],
-      "number": 11,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Maxi",
       "slug": "maxi",
-      "aliases": [],
-      "number": 7,
-      "position": "Mediapunta",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Gordo",
-      "slug": "gordo-azadian",
+      "slug": "gordo",
       "aliases": [
         "gordo",
         "gordo azadian",
         "Gordo Azadian"
-      ],
-      "number": 9,
-      "position": "Nueve",
-      "photoUrl": null,
-      "active": true
+      ]
     },
     {
       "name": "Ema",
       "slug": "ema",
-      "aliases": [],
-      "number": 14,
-      "position": "Cinco",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Lea Pons",
@@ -310,20 +202,12 @@
       "aliases": [
         "pons",
         "lea pons"
-      ],
-      "number": 20,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      ]
     },
     {
       "name": "Casco",
       "slug": "casco",
-      "aliases": [],
-      "number": 1,
-      "position": "Golero",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Fuci",
@@ -331,38 +215,22 @@
       "aliases": [
         "fuchi",
         "fuci"
-      ],
-      "number": 13,
-      "position": "Mediapunta",
-      "photoUrl": null,
-      "active": true
+      ]
     },
     {
       "name": "Facho",
       "slug": "facho",
-      "aliases": [],
-      "number": 23,
-      "position": "Cinco",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Agus",
       "slug": "agus",
-      "aliases": [],
-      "number": 4,
-      "position": "Cinco",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Joaco Da Silva",
       "slug": "joaco-da-silva",
-      "aliases": [],
-      "number": null,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      "aliases": []
     },
     {
       "name": "Pato",
@@ -372,11 +240,10 @@
     {
       "name": "RN",
       "slug": "rn",
-      "aliases": [],
-      "number": null,
-      "position": "Volante",
-      "photoUrl": null,
-      "active": true
+      "aliases": [
+        "Rodri",
+        "rodri"
+      ]
     },
     {
       "name": "Fabri",
@@ -394,7 +261,10 @@
       "goalsFor": 0,
       "goalsAgainst": 2,
       "date": "2024-08-03",
-      "attendanceLabel": "13/20"
+      "attendanceLabel": "13/20",
+      "ligaproAlbumId": "19467",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19467",
+      "jornada": 1
     },
     {
       "index": 2,
@@ -447,7 +317,10 @@
       "goalsFor": 0,
       "goalsAgainst": 2,
       "date": "2024-09-14",
-      "attendanceLabel": "11/20"
+      "attendanceLabel": "11/20",
+      "ligaproAlbumId": "19489",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19489",
+      "jornada": 5
     },
     {
       "index": 6,
@@ -458,7 +331,10 @@
       "goalsFor": 2,
       "goalsAgainst": 3,
       "date": "2024-09-21",
-      "attendanceLabel": "11/21"
+      "attendanceLabel": "11/21",
+      "ligaproAlbumId": "19496",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19496",
+      "jornada": 6
     },
     {
       "index": 7,
@@ -540,9 +416,9 @@
       "goalsAgainst": 6,
       "date": "2025-02-22",
       "attendanceLabel": "14/22",
-      "ligaproAlbumId": "22577",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/22577",
-      "jornada": 1
+      "ligaproAlbumId": "21961",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/21961",
+      "jornada": 2
     },
     {
       "index": 13,
@@ -580,7 +456,10 @@
       "goalsFor": 1,
       "goalsAgainst": 13,
       "date": "2025-03-29",
-      "attendanceLabel": "7/22"
+      "attendanceLabel": "7/22",
+      "ligaproAlbumId": "22577",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/22577",
+      "jornada": 1
     },
     {
       "index": 16,
@@ -676,9 +555,9 @@
       "goalsAgainst": 2,
       "date": "2025-05-31",
       "attendanceLabel": "12/22",
-      "ligaproAlbumId": "19489",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19489",
-      "jornada": 5
+      "ligaproAlbumId": "22617",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/22617",
+      "jornada": 8
     },
     {
       "index": 23,
@@ -731,7 +610,10 @@
       "goalsFor": 1,
       "goalsAgainst": 3,
       "date": "2025-06-28",
-      "attendanceLabel": "10/22"
+      "attendanceLabel": "10/22",
+      "ligaproAlbumId": "23841",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/23841",
+      "jornada": 1
     },
     {
       "index": 27,
@@ -771,9 +653,8 @@
       "goalsAgainst": 3,
       "date": "2025-07-26",
       "attendanceLabel": "9/23",
-      "ligaproAlbumId": "19496",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19496",
-      "jornada": 6
+      "ligaproAlbumId": "24269",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/24269"
     },
     {
       "index": 30,
@@ -840,7 +721,10 @@
       "goalsFor": 0,
       "goalsAgainst": 1,
       "date": "2025-09-20",
-      "attendanceLabel": "13/23"
+      "attendanceLabel": "13/23",
+      "ligaproAlbumId": "25082",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/25082",
+      "jornada": 5
     },
     {
       "index": 35,
@@ -1029,12 +913,14 @@
       "goalsFor": 0,
       "goalsAgainst": 2,
       "date": "2026-03-28",
-      "attendanceLabel": "10/17"
+      "attendanceLabel": "10/17",
+      "ligaproAlbumId": "26755",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26755"
     },
     {
       "index": 49,
       "rival": "Chacal",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 1,
@@ -1048,7 +934,7 @@
     {
       "index": 50,
       "rival": "Juana Chard",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 1,
       "result": "D",
       "goalsFor": 1,
@@ -1062,7 +948,7 @@
     {
       "index": 51,
       "rival": "NOJ",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 3,
       "result": "W",
       "goalsFor": 2,
@@ -1076,7 +962,7 @@
     {
       "index": 52,
       "rival": "TFC",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 1,
@@ -1090,7 +976,7 @@
     {
       "index": 53,
       "rival": "Inter Mitente",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 2,
       "result": "D",
       "goalsFor": 1,
@@ -1101,21 +987,20 @@
     {
       "index": 54,
       "rival": "Ankara",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 0,
       "goalsAgainst": 1,
       "date": "2026-05-23",
       "attendanceLabel": "12/17",
-      "ligaproAlbumId": "25082",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/25082",
-      "jornada": 5
+      "ligaproAlbumId": null,
+      "ligaproAlbumUrl": null
     },
     {
       "index": 55,
       "rival": "Cesar Nabia",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 2,
       "result": "L",
       "goalsFor": 1,
@@ -1129,7 +1014,7 @@
     {
       "index": 56,
       "rival": "Carechimba",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 1,
@@ -1143,21 +1028,21 @@
     {
       "index": 57,
       "rival": "Caleruega",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 1,
       "result": "L",
       "goalsFor": 1,
       "goalsAgainst": 3,
       "date": "2026-06-20",
       "attendanceLabel": "11/17",
-      "ligaproAlbumId": "23841",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/23841",
-      "jornada": 1
+      "ligaproAlbumId": "26907",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26907",
+      "jornada": 10
     },
     {
       "index": 58,
       "rival": "Sol Oriental",
-      "championship": "Apertura 26",
+      "championship": "Apertura",
       "pitch": 4,
       "result": "L",
       "goalsFor": 0,
@@ -1171,7 +1056,7 @@
     {
       "index": 59,
       "rival": "Cesar Nabia",
-      "championship": "Intermedio 26",
+      "championship": "Intermedio",
       "pitch": 1,
       "result": "W",
       "goalsFor": 2,
@@ -1185,7 +1070,7 @@
     {
       "index": 60,
       "rival": "Santa Cruz",
-      "championship": "Intermedio 26",
+      "championship": "Intermedio",
       "pitch": 3,
       "result": "W",
       "goalsFor": 2,
@@ -1199,18 +1084,21 @@
     {
       "index": 61,
       "rival": "Babacar",
-      "championship": "Intermedio 26",
+      "championship": "Intermedio",
       "pitch": 1,
       "result": "D",
       "goalsFor": 2,
       "goalsAgainst": 2,
       "date": "2026-07-25",
-      "attendanceLabel": "12/19"
+      "attendanceLabel": "12/19",
+      "ligaproAlbumId": "28796",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/28796",
+      "jornada": 3
     },
     {
       "index": 62,
       "rival": "Sol Oriental",
-      "championship": "Intermedio 26",
+      "championship": "Intemedio",
       "pitch": 3,
       "result": "D",
       "goalsFor": 0,
@@ -1223,7 +1111,7 @@
     {
       "index": 63,
       "rival": "Carechimba",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 3,
       "result": "D",
       "goalsFor": 2,
@@ -1237,21 +1125,21 @@
     {
       "index": 64,
       "rival": "Cesar Nabia",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 0,
       "goalsAgainst": 2,
       "date": "2026-08-29",
       "attendanceLabel": "13/20",
-      "ligaproAlbumId": "19467",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/19467",
-      "jornada": 1
+      "ligaproAlbumId": "30263",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30263",
+      "jornada": 2
     },
     {
       "index": 65,
       "rival": "Real Rejunte",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 2,
       "result": "L",
       "goalsFor": 1,
@@ -1265,7 +1153,7 @@
     {
       "index": 66,
       "rival": "Juana Chard",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 4,
       "result": "W",
       "goalsFor": 3,
@@ -1279,20 +1167,21 @@
     {
       "index": 67,
       "rival": "Inter Mitente",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 3,
       "result": "L",
       "goalsFor": 0,
       "goalsAgainst": 2,
       "date": "2026-09-26",
       "attendanceLabel": "13/20",
-      "ligaproAlbumId": "26755",
-      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/26755"
+      "ligaproAlbumId": "30276",
+      "ligaproAlbumUrl": "https://www.ligapro.uy/galeria/album/30276",
+      "jornada": 6
     },
     {
       "index": 68,
       "rival": "Ankara",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 4,
       "result": "L",
       "goalsFor": 1,
@@ -1306,7 +1195,7 @@
     {
       "index": 69,
       "rival": "ORT",
-      "championship": "Clausura 26",
+      "championship": "Clausura",
       "pitch": 4,
       "result": "W",
       "goalsFor": 2,
@@ -11327,33 +11216,8 @@
   ],
   "goals": [
     {
-      "matchIndex": 1,
-      "player": "Juani",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 2,
       "player": "Juani",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 2,
-      "player": "Ivo",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 3,
-      "player": "Mati",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 4,
-      "player": "Salsa",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 5,
-      "player": "Patron",
       "isOwnGoal": false
     },
     {
@@ -11367,18 +11231,8 @@
       "isOwnGoal": false
     },
     {
-      "matchIndex": 6,
-      "player": "Fuci",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 7,
       "player": "Mati",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 7,
-      "player": "Gordo",
       "isOwnGoal": false
     },
     {
@@ -11392,11 +11246,6 @@
       "isOwnGoal": true
     },
     {
-      "matchIndex": 8,
-      "player": "Lea Pons",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 9,
       "player": "Gordo",
       "isOwnGoal": false
@@ -11409,11 +11258,6 @@
     {
       "matchIndex": 9,
       "player": "Ivo",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 9,
-      "player": "Tonga",
       "isOwnGoal": false
     },
     {
@@ -11422,33 +11266,13 @@
       "isOwnGoal": false
     },
     {
-      "matchIndex": 10,
-      "player": "Fede",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 11,
       "player": "Gordo",
       "isOwnGoal": false
     },
     {
-      "matchIndex": 11,
-      "player": "Juanba",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 12,
       "player": "Gordo",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 12,
-      "player": "Agus",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 13,
-      "player": "Sanso",
       "isOwnGoal": false
     },
     {
@@ -11457,18 +11281,8 @@
       "isOwnGoal": false
     },
     {
-      "matchIndex": 14,
-      "player": "Tomy Presi",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 15,
       "player": "Tomy Presi",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 15,
-      "player": "Ema",
       "isOwnGoal": false
     },
     {
@@ -11487,28 +11301,13 @@
       "isOwnGoal": false
     },
     {
-      "matchIndex": 16,
-      "player": null,
-      "isOwnGoal": true
-    },
-    {
       "matchIndex": 17,
       "player": "Salsa",
       "isOwnGoal": false
     },
     {
-      "matchIndex": 17,
-      "player": "German",
-      "isOwnGoal": false
-    },
-    {
       "matchIndex": 18,
       "player": "Mati",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 18,
-      "player": "Pita",
       "isOwnGoal": false
     },
     {
@@ -11534,11 +11333,6 @@
     {
       "matchIndex": 19,
       "player": "Patron",
-      "isOwnGoal": false
-    },
-    {
-      "matchIndex": 19,
-      "player": "Rodri",
       "isOwnGoal": false
     },
     {
@@ -11828,7 +11622,7 @@
     },
     {
       "matchIndex": 61,
-      "player": "Rodri",
+      "player": "RN",
       "isOwnGoal": false
     },
     {

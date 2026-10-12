@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MatchAttendanceFields } from "@/components/MatchAttendanceFields";
+import { MatchCoverPicker } from "@/components/MatchCoverPicker";
 import { MatchGoalsFields } from "@/components/MatchGoalsFields";
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getData } from "@/lib/data";
+import { sortPhotosNewestFirst } from "@/lib/photos";
 import { createMatchAction, updateMatchAction } from "../actions";
 
 export const dynamic = "force-dynamic";
@@ -38,6 +40,13 @@ export default async function AdminPartidosPage({
             .map((a) => [a.player, a.status]),
         )
       : {};
+  const editingPhotos =
+    editIndex != null
+      ? sortPhotosNewestFirst(
+          (data.photos ?? []).filter((p) => p.matchIndex === editIndex),
+          data.matches,
+        )
+      : [];
 
   const playerOpts = data.players.map((p) => ({
     name: p.name,
@@ -262,6 +271,13 @@ export default async function AdminPartidosPage({
                 className="mt-1 w-full rounded-lg border border-line px-3 py-2"
               />
             </label>
+            <MatchCoverPicker
+              photos={editingPhotos.map((p) => ({
+                imageUrl: p.imageUrl,
+                caption: p.caption,
+              }))}
+              initialUrl={editing.coverImageUrl}
+            />
             <MatchGoalsFields
               goalsFor={editing.goalsFor}
               initialGoals={editingGoals}

@@ -7,7 +7,7 @@ export function PlayerAvatar({
   crop,
   name,
   fallback,
-  className = "h-28 w-28",
+  className = "h-28 w-28 rounded-full",
 }: {
   url?: string | null;
   crop?: PhotoCrop | null;
@@ -17,10 +17,11 @@ export function PlayerAvatar({
 }) {
   const c = crop ?? DEFAULT_PHOTO_CROP;
   const z = c.zoom;
+  const shape = /\brounded-/.test(className) ? "" : "rounded-full";
 
   return (
     <div
-      className={`relative shrink-0 overflow-hidden rounded-full border-4 border-gold bg-blue-deep ${className}`}
+      className={`relative shrink-0 overflow-hidden border-4 border-gold bg-blue-deep ${shape} ${className}`}
     >
       {url ? (
         // eslint-disable-next-line @next/next/no-img-element
