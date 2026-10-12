@@ -22,9 +22,6 @@ export const metadata: Metadata = {
   },
   description:
     "Estadísticas, partidos, fotos y videos del plantel Ligamentos Cruzeiro — Serie 4 Liga Pro.",
-  icons: {
-    icon: "/escudo.jpg",
-  },
 };
 
 export default function RootLayout({
