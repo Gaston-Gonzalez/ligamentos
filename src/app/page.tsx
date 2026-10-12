@@ -27,13 +27,28 @@ export default async function HomePage() {
   const recent = [...data.matches]
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""))
     .slice(0, 5);
+  const final25 =
+    data.matches.find((m) => /final\s*25/i.test(m.championship)) ??
+    data.matches.find((m) => m.index === 43);
+  const heroCover =
+    (final25
+      ? coverPhotoForMatch(data.photos ?? [], final25)?.imageUrl
+      : null) ?? "/fotos/final-25/053-1lqfjDIS8mp0RMUnfn8IbriW4CwxfD56y.jpg";
 
   return (
     <div>
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(224,179,58,0.2),transparent_40%),linear-gradient(135deg,#0f2868_0%,#1e4ed8_55%,#163a9a_100%)]" />
-        <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.05)_0,rgba(255,255,255,0.05)_1px,transparent_1px,transparent_14px)]" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-14 md:grid-cols-[1.1fr_0.9fr] md:py-20">
+      <section className="relative min-h-[70vh] overflow-hidden md:min-h-[78vh]">
+        <Image
+          src={heroCover}
+          alt="Final 25 · campeones"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_28%]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-deep/90 via-blue-deep/70 to-blue-deep/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-blue-deep/40" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-[1.1fr_0.9fr] md:py-24">
           <div className="animate-rise text-white">
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-gold-soft">
               Serie 4 · Liga Pro
@@ -42,7 +57,7 @@ export default async function HomePage() {
               Ligamentos
               <span className="block text-gold-soft">Cruzeiro</span>
             </h1>
-            <p className="mt-4 max-w-lg text-base text-white/80 md:text-lg">
+            <p className="mt-4 max-w-lg text-base text-white/85 md:text-lg">
               Estadísticas del plantel, partidos, fotos de Liga Pro y videos del
               canal oficial.
             </p>
