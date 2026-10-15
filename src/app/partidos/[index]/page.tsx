@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoFootball } from "react-icons/io5";
+import { AssistIcon } from "@/components/AssistIcon";
 import { MatchResultBadge } from "@/components/MatchResultBadge";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
@@ -54,26 +55,41 @@ export default async function PartidoPage({
   const embed = match.youtubeUrl ? youtubeEmbed(match.youtubeUrl) : null;
 
   const ownGoals = goals.filter((g) => g.isOwnGoal).length;
-  const scorerMap = new Map<
+  const contribMap = new Map<
     string,
-    { key: string; count: number; playerName: string | null }
+    {
+      key: string;
+      goals: number;
+      assists: number;
+      playerName: string | null;
+    }
   >();
-  for (const g of goals) {
-    if (g.isOwnGoal) continue;
-    const player = findPlayer(data, g.player);
-    const key = player?.slug ?? g.player ?? "unknown";
-    const existing = scorerMap.get(key);
+  function bump(
+    nameOrSlug: string | null | undefined,
+    field: "goals" | "assists",
+  ) {
+    if (!nameOrSlug) return;
+    const player = findPlayer(data, nameOrSlug);
+    const key = player?.slug ?? nameOrSlug;
+    const existing = contribMap.get(key);
     if (existing) {
-      existing.count += 1;
+      existing[field] += 1;
     } else {
-      scorerMap.set(key, {
+      contribMap.set(key, {
         key,
-        count: 1,
-        playerName: player?.name ?? g.player ?? null,
+        goals: field === "goals" ? 1 : 0,
+        assists: field === "assists" ? 1 : 0,
+        playerName: player?.name ?? nameOrSlug,
       });
     }
   }
-  const scorers = [...scorerMap.values()].sort((a, b) => b.count - a.count);
+  for (const g of goals) {
+    if (!g.isOwnGoal) bump(g.player, "goals");
+    bump(g.assistPlayer, "assists");
+  }
+  const contributors = [...contribMap.values()].sort(
+    (a, b) => b.goals - a.goals || b.assists - a.assists,
+  );
 
   const groups = {
     present: attendance.filter((a) => a.status === "present"),
@@ -164,17 +180,27 @@ export default async function PartidoPage({
         ) : null}
 
         <section>
-          <SectionHeading title="Goleadores" />
-          {scorers.length === 0 && ownGoals === 0 ? (
+          <SectionHeading title="Goles y asistencias" />
+          {contributors.length === 0 && ownGoals === 0 ? (
             <p className="text-muted">Sin goles registrados.</p>
           ) : (
             <ul className="grid gap-3 sm:grid-cols-2">
-              {scorers.map((s) => {
+              {contributors.map((s) => {
                 const player = findPlayer(data, s.key);
                 const avatar = player
                   ? resolvePlayerPhoto(player, data.photos)
                   : null;
                 const name = player?.name ?? s.playerName ?? "Desconocido";
+                const parts: string[] = [];
+                if (s.goals > 0) {
+                  parts.push(`${s.goals} gol${s.goals === 1 ? "" : "es"}`);
+                }
+                if (s.assists > 0) {
+                  parts.push(
+                    `${s.assists} asistencia${s.assists === 1 ? "" : "s"}`,
+                  );
+                }
+                const label = parts.join(" · ");
                 const row = (
                   <>
                     <PlayerAvatar
@@ -188,12 +214,15 @@ export default async function PartidoPage({
                         {name}
                       </p>
                       <div
-                        className="mt-2 flex items-center gap-1 text-blue-deep"
-                        title={`${s.count} gol${s.count === 1 ? "" : "es"}`}
-                        aria-label={`${s.count} gol${s.count === 1 ? "" : "es"}`}
+                        className="mt-2 flex flex-wrap items-center gap-1 text-blue-deep"
+                        title={label}
+                        aria-label={label}
                       >
-                        {Array.from({ length: s.count }, (_, i) => (
-                          <IoFootball key={i} className="h-7 w-7 shrink-0" />
+                        {Array.from({ length: s.goals }, (_, i) => (
+                          <IoFootball key={`g-${i}`} className="h-7 w-7 shrink-0" />
+                        ))}
+                        {Array.from({ length: s.assists }, (_, i) => (
+                          <AssistIcon key={`a-${i}`} className="h-7 w-7 shrink-0" />
                         ))}
                       </div>
                     </div>

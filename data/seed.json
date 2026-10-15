@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-12T14:44:24.085Z",
-  "source": "Asistencia de Jugadores.xlsx",
+  "generatedAt": "2026-10-15T21:23:41.248Z",
+  "source": "Asistencia de Jugadores.xlsx + goles-asistencias1.csv",
   "team": "Ligamentos Cruzeiro",
   "championships": [
     {
@@ -11241,462 +11241,554 @@
     {
       "matchIndex": 2,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 6,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "German"
     },
     {
       "matchIndex": 6,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 7,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juanba"
     },
     {
       "matchIndex": 8,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 8,
       "player": null,
-      "isOwnGoal": true
+      "isOwnGoal": true,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 9,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Nacho"
     },
     {
       "matchIndex": 9,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Gordo"
     },
     {
       "matchIndex": 9,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 10,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 11,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Ema"
     },
     {
       "matchIndex": 12,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Patron"
     },
     {
       "matchIndex": 14,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 15,
       "player": "Tomy Presi",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 16,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tomy Presi"
     },
     {
       "matchIndex": 16,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Salsa"
     },
     {
       "matchIndex": 16,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tomy Presi"
     },
     {
       "matchIndex": 17,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 18,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 19,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Salsa"
     },
     {
       "matchIndex": 19,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 19,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Salsa"
     },
     {
       "matchIndex": 19,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tomy Presi"
     },
     {
       "matchIndex": 19,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 20,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 20,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 21,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "German"
     },
     {
       "matchIndex": 23,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 25,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 25,
       "player": "Fede",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 26,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 27,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Gordo"
     },
     {
       "matchIndex": 28,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 28,
       "player": "Tonga",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 28,
       "player": "Tomy Presi",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 29,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 29,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 30,
       "player": "Tonga",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 30,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 30,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Agus"
     },
     {
       "matchIndex": 31,
       "player": "Tonga",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 31,
       "player": "Gordo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 32,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 32,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tonga"
     },
     {
       "matchIndex": 33,
       "player": "Sanso",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 36,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 36,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Fede"
     },
     {
       "matchIndex": 37,
       "player": "Agus",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 37,
       "player": "Patron",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 38,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "More"
     },
     {
       "matchIndex": 39,
       "player": "German",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Agus"
     },
     {
       "matchIndex": 39,
       "player": "Agus",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 40,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Sanso"
     },
     {
       "matchIndex": 40,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Pita"
     },
     {
       "matchIndex": 41,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tonga"
     },
     {
       "matchIndex": 41,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 42,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 43,
       "player": "Pita",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Pancho"
     },
     {
       "matchIndex": 44,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 44,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 45,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 46,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 47,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 47,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Lea Pons"
     },
     {
       "matchIndex": 47,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 47,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Sanso"
     },
     {
       "matchIndex": 47,
       "player": "Sanso",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 47,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 49,
       "player": "Ema",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Lea Pons"
     },
     {
       "matchIndex": 50,
       "player": "Mati",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 51,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 51,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 52,
       "player": "Salsa",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 53,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juan"
     },
     {
       "matchIndex": 55,
       "player": "Juanba",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 56,
       "player": "Juanba",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "German"
     },
     {
       "matchIndex": 57,
       "player": "Tonga",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Lea Pons"
     },
     {
       "matchIndex": 59,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Tonga"
     },
     {
       "matchIndex": 59,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Ivo"
     },
     {
       "matchIndex": 60,
       "player": "Tonga",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     },
     {
       "matchIndex": 60,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 61,
       "player": "RN",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 61,
       "player": "Ivo",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "RN"
     },
     {
       "matchIndex": 63,
       "player": "Fede",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Fuci"
     },
     {
       "matchIndex": 63,
       "player": "Fede",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 65,
       "player": "Juani",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Fuci"
     },
     {
       "matchIndex": 66,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 66,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juanba"
     },
     {
       "matchIndex": 66,
       "player": "Lea Pons",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Juani"
     },
     {
       "matchIndex": 68,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 69,
       "player": "Juanba",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": null
     },
     {
       "matchIndex": 69,
       "player": "Fuci",
-      "isOwnGoal": false
+      "isOwnGoal": false,
+      "assistPlayer": "Mati"
     }
   ]
 }

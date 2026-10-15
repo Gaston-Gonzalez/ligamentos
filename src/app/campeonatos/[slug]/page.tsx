@@ -11,6 +11,7 @@ import {
   formatPct,
   recordString,
   teamRecord,
+  topAssists,
   topScorers,
 } from "@/lib/stats";
 
@@ -32,6 +33,7 @@ export default async function CampeonatoDetailPage({
     .sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
   const record = teamRecord(matches);
   const scorers = topScorers(data, slug, 10);
+  const assisters = topAssists(data, slug, 10);
   const presence = computePlayerStats(data, slug)
     .filter((p) => p.eligible > 0)
     .sort((a, b) => b.played - a.played)
@@ -131,7 +133,7 @@ export default async function CampeonatoDetailPage({
         </div>
       </div>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-2">
+      <div className="mt-10 grid gap-10 lg:grid-cols-3">
         <div>
           <SectionHeading title="Goleadores" />
           <ul className="mt-3 space-y-2">
@@ -147,7 +149,27 @@ export default async function CampeonatoDetailPage({
           </ul>
         </div>
         <div>
-          <SectionHeading title="Asistencia" />
+          <SectionHeading title="Asistencias" />
+          <ul className="mt-3 space-y-2">
+            {assisters.length === 0 ? (
+              <li className="text-sm text-muted">Sin asistencias registradas.</li>
+            ) : (
+              assisters.map((s) => (
+                <li
+                  key={s.player.slug}
+                  className="surface flex justify-between rounded-xl px-4 py-2"
+                >
+                  <Link href={`/jugadores/${s.player.slug}`}>
+                    {s.player.name}
+                  </Link>
+                  <span className="font-bold text-blue">{s.assists}</span>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+        <div>
+          <SectionHeading title="Presencias" />
           <ul className="mt-3 space-y-2">
             {presence.map((p) => (
               <li

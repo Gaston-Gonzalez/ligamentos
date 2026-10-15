@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IoFootball } from "react-icons/io5";
+import { AssistIcon } from "@/components/AssistIcon";
 import { MatchResultBadge } from "@/components/MatchResultBadge";
 
 export type HistoryItem = {
@@ -14,6 +15,7 @@ export type HistoryItem = {
   goalsFor: number;
   goalsAgainst: number;
   goalsInMatch: number;
+  assistsInMatch?: number;
   crestUrl: string | null;
 };
 
@@ -58,14 +60,35 @@ export function MatchHistoryList({ items }: { items: HistoryItem[] }) {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {h.goalsInMatch > 0 ? (
+              {h.goalsInMatch > 0 || (h.assistsInMatch ?? 0) > 0 ? (
                 <div
                   className="flex items-center gap-0.5 text-blue-deep"
-                  title={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
-                  aria-label={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
+                  title={[
+                    h.goalsInMatch > 0
+                      ? `${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`
+                      : null,
+                    (h.assistsInMatch ?? 0) > 0
+                      ? `${h.assistsInMatch} asistencia${h.assistsInMatch === 1 ? "" : "s"}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                  aria-label={[
+                    h.goalsInMatch > 0
+                      ? `${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`
+                      : null,
+                    (h.assistsInMatch ?? 0) > 0
+                      ? `${h.assistsInMatch} asistencia${h.assistsInMatch === 1 ? "" : "s"}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
                 >
                   {Array.from({ length: h.goalsInMatch }, (_, i) => (
-                    <IoFootball key={i} className="h-5 w-5 shrink-0" />
+                    <IoFootball key={`g-${i}`} className="h-5 w-5 shrink-0" />
+                  ))}
+                  {Array.from({ length: h.assistsInMatch ?? 0 }, (_, i) => (
+                    <AssistIcon key={`a-${i}`} className="h-5 w-5 shrink-0" />
                   ))}
                 </div>
               ) : null}

@@ -22,6 +22,7 @@ type SortId =
   | "wins"
   | "winrate"
   | "goals"
+  | "assists"
   | "streak";
 
 type SortDir = "asc" | "desc";
@@ -40,6 +41,7 @@ const COLUMNS: {
   { id: "wins", label: "Récord", defaultDir: "desc" },
   { id: "winrate", label: "WR", defaultDir: "desc" },
   { id: "goals", label: "Goles", defaultDir: "desc" },
+  { id: "assists", label: "Asist.", defaultDir: "desc" },
   { id: "streak", label: "Racha", defaultDir: "desc" },
 ];
 
@@ -61,6 +63,8 @@ function sortValue(p: PlayerStats, id: SortId): number | string {
       return p.winRate;
     case "goals":
       return p.goals;
+    case "assists":
+      return p.assists;
     case "streak":
       return p.longestStreak;
   }
@@ -143,7 +147,7 @@ export default async function JugadoresPage({
     <div className="mx-auto max-w-6xl px-4 py-10">
       <SectionHeading
         title="Jugadores"
-        subtitle="Presencias, habilitados, justificadas, récord y goles del plantel. Tocá una columna para ordenar."
+        subtitle="Presencias, habilitados, justificadas, récord, goles y asistencias del plantel. Tocá una columna para ordenar."
       />
 
       <div className="overflow-x-auto surface rounded-2xl">
@@ -206,6 +210,9 @@ export default async function JugadoresPage({
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums font-semibold text-blue">
                     {p.goals}
+                  </td>
+                  <td className="px-3 py-3 text-right tabular-nums font-semibold text-blue">
+                    {p.assists}
                   </td>
                   <td className="px-3 py-3 text-right tabular-nums">
                     {p.longestStreak}

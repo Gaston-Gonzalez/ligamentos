@@ -157,6 +157,7 @@ export async function updatePlayerAction(formData: FormData) {
       }
       for (const g of seed.goals) {
         if (g.player === oldName) g.player = name;
+        if (g.assistPlayer === oldName) g.assistPlayer = name;
       }
       p.aliases = [
         ...new Set([...(p.aliases ?? []), ...aliases, oldName].filter(Boolean)),
@@ -190,10 +191,12 @@ function matchResult(
 function parseGoalEntries(formData: FormData) {
   const players = formData.getAll("goalPlayer").map(String);
   const owns = formData.getAll("goalOwn").map(String);
+  const assists = formData.getAll("goalAssist").map(String);
   return players
     .map((player, i) => ({
       player: player.trim() || null,
       isOwnGoal: owns[i] === "1" || owns[i] === "on",
+      assistPlayer: assists[i]?.trim() || null,
     }))
     .filter((e) => e.isOwnGoal || e.player);
 }
@@ -233,10 +236,14 @@ async function saveMatchGoals(
   if (ids && matchDbId != null) {
     await ids.db.delete(goals).where(eq(goals.matchId, matchDbId));
     for (const e of entries) {
+      const assist = e.assistPlayer
+        ? [...ids.players].find((p) => p.name === e.assistPlayer)
+        : null;
       if (e.isOwnGoal) {
         await ids.db.insert(goals).values({
           matchId: matchDbId,
           playerId: null,
+          assistPlayerId: assist?.id ?? null,
           isOwnGoal: true,
         });
         continue;
@@ -246,6 +253,7 @@ async function saveMatchGoals(
       await ids.db.insert(goals).values({
         matchId: matchDbId,
         playerId: player.id,
+        assistPlayerId: assist?.id ?? null,
         isOwnGoal: false,
       });
     }
@@ -258,6 +266,7 @@ async function saveMatchGoals(
       matchIndex,
       player: e.isOwnGoal ? null : e.player,
       isOwnGoal: e.isOwnGoal,
+      assistPlayer: e.assistPlayer,
     });
   }
 }

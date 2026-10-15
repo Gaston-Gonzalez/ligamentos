@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoFootball } from "react-icons/io5";
+import { AssistIcon } from "@/components/AssistIcon";
 import { MatchResultBadge } from "@/components/MatchResultBadge";
 import { SectionHeading } from "@/components/SectionHeading";
 import { StatCard } from "@/components/StatCard";
@@ -54,6 +55,9 @@ export default async function JugadorPage({
   const playerGoals = data.goals.filter(
     (g) => matchesPlayer(player, g.player) && !g.isOwnGoal,
   );
+  const playerAssists = data.goals.filter((g) =>
+    matchesPlayer(player, g.assistPlayer),
+  );
 
   const history = data.attendances
     .filter((a) => matchesPlayer(player, a.player) && a.status === "present")
@@ -63,10 +67,14 @@ export default async function JugadorPage({
       const goalsInMatch = playerGoals.filter(
         (g) => g.matchIndex === a.matchIndex,
       ).length;
+      const assistsInMatch = playerAssists.filter(
+        (g) => g.matchIndex === a.matchIndex,
+      ).length;
       return {
         matchIndex: a.matchIndex,
         match,
         goalsInMatch,
+        assistsInMatch,
         crestUrl: resolveCrestUrl(match.rival, crests),
       };
     })
@@ -98,7 +106,7 @@ export default async function JugadorPage({
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
         <StatCard
           label="Presencias"
           value={`${global.played}/${global.eligible}`}
@@ -114,6 +122,7 @@ export default async function JugadorPage({
           hint={`WR ${formatPct(global.winRate)}`}
         />
         <StatCard label="Goles" value={playerGoals.length} />
+        <StatCard label="Asistencias" value={playerAssists.length} />
         <StatCard
           label="Racha"
           value={global.longestStreak}
@@ -198,14 +207,35 @@ export default async function JugadorPage({
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    {h.goalsInMatch > 0 ? (
+                    {h.goalsInMatch > 0 || h.assistsInMatch > 0 ? (
                       <div
                         className="flex items-center gap-0.5 text-blue-deep"
-                        title={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
-                        aria-label={`${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`}
+                        title={[
+                          h.goalsInMatch > 0
+                            ? `${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`
+                            : null,
+                          h.assistsInMatch > 0
+                            ? `${h.assistsInMatch} asistencia${h.assistsInMatch === 1 ? "" : "s"}`
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
+                        aria-label={[
+                          h.goalsInMatch > 0
+                            ? `${h.goalsInMatch} gol${h.goalsInMatch === 1 ? "" : "es"}`
+                            : null,
+                          h.assistsInMatch > 0
+                            ? `${h.assistsInMatch} asistencia${h.assistsInMatch === 1 ? "" : "s"}`
+                            : null,
+                        ]
+                          .filter(Boolean)
+                          .join(" · ")}
                       >
                         {Array.from({ length: h.goalsInMatch }, (_, i) => (
-                          <IoFootball key={i} className="h-5 w-5" />
+                          <IoFootball key={`g-${i}`} className="h-5 w-5" />
+                        ))}
+                        {Array.from({ length: h.assistsInMatch }, (_, i) => (
+                          <AssistIcon key={`a-${i}`} className="h-5 w-5" />
                         ))}
                       </div>
                     ) : null}

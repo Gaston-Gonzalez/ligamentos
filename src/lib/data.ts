@@ -151,10 +151,14 @@ async function loadFromDatabase(): Promise<SeedData> {
     goals: goalRows.map((g) => {
       const match = matchById.get(g.matchId);
       const player = g.playerId ? playerById.get(g.playerId) : null;
+      const assist = g.assistPlayerId
+        ? playerById.get(g.assistPlayerId)
+        : null;
       return {
         matchIndex: match?.matchIndex ?? g.matchId,
         player: player?.name ?? null,
         isOwnGoal: g.isOwnGoal,
+        assistPlayer: assist?.name ?? null,
       };
     }),
     photos: photoRows.map((p) => {

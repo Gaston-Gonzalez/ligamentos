@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 type GoalRow = {
   player: string;
   isOwnGoal: boolean;
+  assistPlayer: string;
 };
 
 export function MatchGoalsFields({
@@ -13,7 +14,11 @@ export function MatchGoalsFields({
   players,
 }: {
   goalsFor: number;
-  initialGoals?: { player: string | null; isOwnGoal: boolean }[];
+  initialGoals?: {
+    player: string | null;
+    isOwnGoal: boolean;
+    assistPlayer?: string | null;
+  }[];
   players: { name: string; slug: string }[];
 }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -24,6 +29,7 @@ export function MatchGoalsFields({
       ? (initialGoals ?? []).map((g) => ({
           player: g.player ?? "",
           isOwnGoal: g.isOwnGoal,
+          assistPlayer: g.assistPlayer ?? "",
         }))
       : [],
   );
@@ -84,13 +90,17 @@ export function MatchGoalsFields({
         <div>
           <p className="text-sm font-semibold text-blue-deep">Goleadores</p>
           <p className="text-xs text-muted">
-            Marcador a favor: {goalsFor}. Un renglón por cada gol.
+            Marcador a favor: {goalsFor}. Un renglón por cada gol (con asistencia
+            opcional).
           </p>
         </div>
         <button
           type="button"
           onClick={() =>
-            setRows((r) => [...r, { player: "", isOwnGoal: false }])
+            setRows((r) => [
+              ...r,
+              { player: "", isOwnGoal: false, assistPlayer: "" },
+            ])
           }
           className="rounded-full border border-line px-3 py-1 text-xs font-semibold"
         >
@@ -137,6 +147,7 @@ export function MatchGoalsFields({
                           ? {
                               player: checked ? "" : x.player,
                               isOwnGoal: checked,
+                              assistPlayer: x.assistPlayer,
                             }
                           : x,
                       ),
@@ -167,7 +178,7 @@ export function MatchGoalsFields({
                   required={!row.isOwnGoal}
                   className="min-w-0 flex-1 rounded-lg border border-line px-2 py-1 text-sm"
                 >
-                  <option value="">Jugador…</option>
+                  <option value="">Goleador…</option>
                   {players.map((p) => (
                     <option key={p.slug} value={p.name}>
                       {p.name}
@@ -175,6 +186,26 @@ export function MatchGoalsFields({
                   ))}
                 </select>
               )}
+              <select
+                name="goalAssist"
+                value={row.assistPlayer}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setRows((r) =>
+                    r.map((x, idx) =>
+                      idx === i ? { ...x, assistPlayer: v } : x,
+                    ),
+                  );
+                }}
+                className="min-w-0 flex-1 rounded-lg border border-line px-2 py-1 text-sm"
+              >
+                <option value="">Sin asistencia</option>
+                {players.map((p) => (
+                  <option key={`a-${p.slug}`} value={p.name}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={() =>

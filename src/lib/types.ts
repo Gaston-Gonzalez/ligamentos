@@ -62,6 +62,8 @@ export interface SeedGoal {
   matchIndex: number;
   player: string | null;
   isOwnGoal: boolean;
+  /** Player who assisted this goal, if any. */
+  assistPlayer?: string | null;
 }
 
 export interface SeedPhoto {
@@ -98,6 +100,7 @@ export interface PlayerStats {
   losses: number;
   winRate: number;
   goals: number;
+  assists: number;
   longestStreak: number;
 }
 

@@ -212,6 +212,7 @@ function main() {
     matchIndex: number;
     player: string | null;
     isOwnGoal: boolean;
+    assistPlayer: string | null;
   }[] = [];
 
   for (let r = 1; r < 200; r++) {
@@ -229,12 +230,18 @@ function main() {
       if (!scorer) break;
       if (/^\d+(\.\d+)?$/.test(scorer)) continue;
       if (scorer.toLowerCase().includes("en contra")) {
-        goals.push({ matchIndex, player: null, isOwnGoal: true });
+        goals.push({
+          matchIndex,
+          player: null,
+          isOwnGoal: true,
+          assistPlayer: null,
+        });
       } else {
         goals.push({
           matchIndex,
           player: normalizePlayer(scorer),
           isOwnGoal: false,
+          assistPlayer: null,
         });
       }
     }

@@ -131,15 +131,20 @@ async function main() {
       const match = matchByIndex.get(g.matchIndex);
       if (!match) return null;
       const player = g.player ? playerByName.get(g.player) : null;
+      const assist = g.assistPlayer
+        ? playerByName.get(g.assistPlayer)
+        : null;
       return {
         matchId: match.id,
         playerId: player?.id ?? null,
+        assistPlayerId: assist?.id ?? null,
         isOwnGoal: g.isOwnGoal,
       };
     })
     .filter(Boolean) as {
     matchId: number;
     playerId: number | null;
+    assistPlayerId: number | null;
     isOwnGoal: boolean;
   }[];
   if (goalValues.length) {

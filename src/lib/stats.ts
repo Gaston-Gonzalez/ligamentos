@@ -105,12 +105,19 @@ export function computePlayerStats(
   const relevantIndexes = new Set(relevantMatches.map((m) => m.index));
 
   const goalsByPlayer = new Map<string, number>();
+  const assistsByPlayer = new Map<string, number>();
   for (const g of data.goals) {
     if (!relevantIndexes.has(g.matchIndex)) continue;
-    if (!g.player || g.isOwnGoal) continue;
-    const resolved = findPlayer(data, g.player);
-    const key = resolved?.name ?? g.player;
-    goalsByPlayer.set(key, (goalsByPlayer.get(key) ?? 0) + 1);
+    if (g.player && !g.isOwnGoal) {
+      const resolved = findPlayer(data, g.player);
+      const key = resolved?.name ?? g.player;
+      goalsByPlayer.set(key, (goalsByPlayer.get(key) ?? 0) + 1);
+    }
+    if (g.assistPlayer) {
+      const resolved = findPlayer(data, g.assistPlayer);
+      const key = resolved?.name ?? g.assistPlayer;
+      assistsByPlayer.set(key, (assistsByPlayer.get(key) ?? 0) + 1);
+    }
   }
 
   return data.players.map((player) => {
@@ -160,9 +167,25 @@ export function computePlayerStats(
       losses,
       winRate: played ? wins / played : 0,
       goals: goalsByPlayer.get(player.name) ?? 0,
+      assists: assistsByPlayer.get(player.name) ?? 0,
       longestStreak: longestPresenceStreak(streakStatuses),
     };
   });
+}
+
+function relevantMatchIndexes(
+  data: SeedData,
+  championshipSlug?: string,
+): Set<number> {
+  const championshipName = championshipSlug
+    ? data.championships.find((c) => c.slug === championshipSlug)?.name
+    : undefined;
+  return new Set(
+    (championshipName
+      ? data.matches.filter((m) => m.championship === championshipName)
+      : data.matches
+    ).map((m) => m.index),
+  );
 }
 
 export function topScorers(
@@ -170,15 +193,7 @@ export function topScorers(
   championshipSlug?: string,
   limit = 15,
 ): { player: SeedPlayer; goals: number }[] {
-  const championshipName = championshipSlug
-    ? data.championships.find((c) => c.slug === championshipSlug)?.name
-    : undefined;
-  const indexes = new Set(
-    (championshipName
-      ? data.matches.filter((m) => m.championship === championshipName)
-      : data.matches
-    ).map((m) => m.index),
-  );
+  const indexes = relevantMatchIndexes(data, championshipSlug);
 
   const counts = new Map<string, number>();
   for (const g of data.goals) {
@@ -195,6 +210,31 @@ export function topScorers(
     }))
     .filter((x) => x.player)
     .sort((a, b) => b.goals - a.goals)
+    .slice(0, limit);
+}
+
+export function topAssists(
+  data: SeedData,
+  championshipSlug?: string,
+  limit = 15,
+): { player: SeedPlayer; assists: number }[] {
+  const indexes = relevantMatchIndexes(data, championshipSlug);
+
+  const counts = new Map<string, number>();
+  for (const g of data.goals) {
+    if (!indexes.has(g.matchIndex) || !g.assistPlayer) continue;
+    const resolved = findPlayer(data, g.assistPlayer);
+    const key = resolved?.name ?? g.assistPlayer;
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .map(([name, assists]) => ({
+      player: findPlayer(data, name) ?? data.players.find((p) => p.name === name)!,
+      assists,
+    }))
+    .filter((x) => x.player)
+    .sort((a, b) => b.assists - a.assists)
     .slice(0, limit);
 }
 

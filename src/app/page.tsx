@@ -11,6 +11,7 @@ import {
   formatPct,
   recordString,
   teamRecord,
+  topAssists,
   topScorers,
 } from "@/lib/stats";
 
@@ -21,6 +22,7 @@ export default async function HomePage() {
   const crests = await loadRivalCrests();
   const record = teamRecord(data.matches);
   const scorers = topScorers(data, undefined, 5);
+  const assisters = topAssists(data, undefined, 5);
   const presence = computePlayerStats(data)
     .sort((a, b) => b.played - a.played)
     .slice(0, 5);
@@ -145,6 +147,25 @@ export default async function HomePage() {
                       {s.player.name}
                     </span>
                     <span className="display text-xl text-blue">{s.goals}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <SectionHeading title="Asistencias" />
+            <ul className="space-y-2">
+              {assisters.map((s, i) => (
+                <li key={s.player.slug}>
+                  <Link
+                    href={`/jugadores/${s.player.slug}`}
+                    className="surface flex items-center justify-between rounded-xl px-4 py-2.5 hover:border-gold/50"
+                  >
+                    <span className="font-medium">
+                      <span className="mr-2 text-muted">{i + 1}.</span>
+                      {s.player.name}
+                    </span>
+                    <span className="display text-xl text-blue">{s.assists}</span>
                   </Link>
                 </li>
               ))}

@@ -80,6 +80,9 @@ export const goals = pgTable("goals", {
   playerId: integer("player_id").references(() => players.id, {
     onDelete: "set null",
   }),
+  assistPlayerId: integer("assist_player_id").references(() => players.id, {
+    onDelete: "set null",
+  }),
   isOwnGoal: boolean("is_own_goal").default(false).notNull(),
   minute: integer("minute"),
 });
