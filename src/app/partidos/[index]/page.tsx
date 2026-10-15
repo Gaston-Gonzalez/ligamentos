@@ -54,42 +54,51 @@ export default async function PartidoPage({
   const photos = (data.photos ?? []).filter((p) => p.matchIndex === index);
   const embed = match.youtubeUrl ? youtubeEmbed(match.youtubeUrl) : null;
 
-  const ownGoals = goals.filter((g) => g.isOwnGoal).length;
-  const contribMap = new Map<
-    string,
-    {
-      key: string;
-      goals: number;
-      assists: number;
-      playerName: string | null;
+  type ScorerCard = {
+    key: string;
+    playerName: string | null;
+    goals: number;
+    /** Assister display names, one per assisted goal, in goal order. */
+    assistNames: string[];
+  };
+  const scorerMap = new Map<string, ScorerCard>();
+  const ownGoalAssists: string[] = [];
+  let ownGoalCount = 0;
+
+  for (const g of goals) {
+    if (g.isOwnGoal) {
+      ownGoalCount += 1;
+      if (g.assistPlayer) {
+        const assist = findPlayer(data, g.assistPlayer);
+        ownGoalAssists.push(assist?.name ?? g.assistPlayer);
+      }
+      continue;
     }
-  >();
-  function bump(
-    nameOrSlug: string | null | undefined,
-    field: "goals" | "assists",
-  ) {
-    if (!nameOrSlug) return;
-    const player = findPlayer(data, nameOrSlug);
-    const key = player?.slug ?? nameOrSlug;
-    const existing = contribMap.get(key);
+    if (!g.player) continue;
+    const player = findPlayer(data, g.player);
+    const key = player?.slug ?? g.player;
+    const existing = scorerMap.get(key);
     if (existing) {
-      existing[field] += 1;
+      existing.goals += 1;
+      if (g.assistPlayer) {
+        const assist = findPlayer(data, g.assistPlayer);
+        existing.assistNames.push(assist?.name ?? g.assistPlayer);
+      }
     } else {
-      contribMap.set(key, {
+      const assistNames: string[] = [];
+      if (g.assistPlayer) {
+        const assist = findPlayer(data, g.assistPlayer);
+        assistNames.push(assist?.name ?? g.assistPlayer);
+      }
+      scorerMap.set(key, {
         key,
-        goals: field === "goals" ? 1 : 0,
-        assists: field === "assists" ? 1 : 0,
-        playerName: player?.name ?? nameOrSlug,
+        playerName: player?.name ?? g.player,
+        goals: 1,
+        assistNames,
       });
     }
   }
-  for (const g of goals) {
-    if (!g.isOwnGoal) bump(g.player, "goals");
-    bump(g.assistPlayer, "assists");
-  }
-  const contributors = [...contribMap.values()].sort(
-    (a, b) => b.goals - a.goals || b.assists - a.assists,
-  );
+  const scorers = [...scorerMap.values()].sort((a, b) => b.goals - a.goals);
 
   const groups = {
     present: attendance.filter((a) => a.status === "present"),
@@ -181,71 +190,102 @@ export default async function PartidoPage({
 
         <section>
           <SectionHeading title="Goles y asistencias" />
-          {contributors.length === 0 && ownGoals === 0 ? (
+          {scorers.length === 0 && ownGoalCount === 0 ? (
             <p className="text-muted">Sin goles registrados.</p>
           ) : (
             <ul className="grid gap-3 sm:grid-cols-2">
-              {contributors.map((s) => {
+              {scorers.map((s) => {
                 const player = findPlayer(data, s.key);
                 const avatar = player
                   ? resolvePlayerPhoto(player, data.photos)
                   : null;
                 const name = player?.name ?? s.playerName ?? "Desconocido";
-                const parts: string[] = [];
-                if (s.goals > 0) {
-                  parts.push(`${s.goals} gol${s.goals === 1 ? "" : "es"}`);
-                }
-                if (s.assists > 0) {
-                  parts.push(
-                    `${s.assists} asistencia${s.assists === 1 ? "" : "s"}`,
-                  );
-                }
-                const label = parts.join(" · ");
-                const row = (
-                  <>
-                    <PlayerAvatar
-                      url={avatar?.url}
-                      crop={avatar?.crop}
-                      name={name}
-                      className="h-20 w-20 rounded-full border-[3px] md:h-24 md:w-24"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="display text-2xl leading-none text-blue-deep md:text-3xl">
-                        {name}
-                      </p>
-                      <div
-                        className="mt-2 flex flex-wrap items-center gap-1 text-blue-deep"
-                        title={label}
-                        aria-label={label}
-                      >
-                        {Array.from({ length: s.goals }, (_, i) => (
-                          <IoFootball key={`g-${i}`} className="h-7 w-7 shrink-0" />
-                        ))}
-                        {Array.from({ length: s.assists }, (_, i) => (
-                          <AssistIcon key={`a-${i}`} className="h-7 w-7 shrink-0" />
-                        ))}
-                      </div>
-                    </div>
-                  </>
-                );
+                const goalLabel = `${s.goals} gol${s.goals === 1 ? "" : "es"}`;
                 return (
-                  <li key={s.key}>
+                  <li
+                    key={s.key}
+                    className="surface flex items-center gap-4 rounded-2xl px-4 py-4"
+                  >
                     {player ? (
                       <Link
                         href={`/jugadores/${player.slug}`}
-                        className="surface flex items-center gap-4 rounded-2xl px-4 py-4 hover:border-blue/40"
+                        className="shrink-0 rounded-full hover:opacity-90"
                       >
-                        {row}
+                        <PlayerAvatar
+                          url={avatar?.url}
+                          crop={avatar?.crop}
+                          name={name}
+                          className="h-20 w-20 rounded-full border-[3px] md:h-24 md:w-24"
+                        />
                       </Link>
                     ) : (
-                      <div className="surface flex items-center gap-4 rounded-2xl px-4 py-4">
-                        {row}
-                      </div>
+                      <PlayerAvatar
+                        url={avatar?.url}
+                        crop={avatar?.crop}
+                        name={name}
+                        className="h-20 w-20 shrink-0 rounded-full border-[3px] md:h-24 md:w-24"
+                      />
                     )}
+                    <div className="min-w-0 flex-1">
+                      {player ? (
+                        <Link
+                          href={`/jugadores/${player.slug}`}
+                          className="display text-2xl leading-none text-blue-deep hover:underline md:text-3xl"
+                        >
+                          {name}
+                        </Link>
+                      ) : (
+                        <p className="display text-2xl leading-none text-blue-deep md:text-3xl">
+                          {name}
+                        </p>
+                      )}
+                      <div
+                        className="mt-2 flex flex-wrap items-center gap-1 text-blue-deep"
+                        title={goalLabel}
+                        aria-label={goalLabel}
+                      >
+                        {Array.from({ length: s.goals }, (_, i) => (
+                          <IoFootball
+                            key={`g-${i}`}
+                            className="h-7 w-7 shrink-0"
+                          />
+                        ))}
+                      </div>
+                      {s.assistNames.length > 0 ? (
+                        <ul className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                          {s.assistNames.map((assistName, i) => {
+                            const assistPlayer = findPlayer(data, assistName);
+                            const chip = (
+                              <span className="inline-flex items-center gap-1 text-sm font-medium text-blue-deep">
+                                <AssistIcon className="h-5 w-5 shrink-0" />
+                                <span>{assistName}</span>
+                              </span>
+                            );
+                            return (
+                              <li key={`${assistName}-${i}`}>
+                                {assistPlayer ? (
+                                  <Link
+                                    href={`/jugadores/${assistPlayer.slug}`}
+                                    className="hover:underline"
+                                    aria-label={`Asistencia: ${assistName}`}
+                                  >
+                                    {chip}
+                                  </Link>
+                                ) : (
+                                  <span aria-label={`Asistencia: ${assistName}`}>
+                                    {chip}
+                                  </span>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      ) : null}
+                    </div>
                   </li>
                 );
               })}
-              {ownGoals > 0 ? (
+              {ownGoalCount > 0 ? (
                 <li className="surface flex items-center gap-4 rounded-2xl px-4 py-4">
                   <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-[3px] border-line bg-paper text-sm font-bold text-muted md:h-24 md:w-24">
                     EC
@@ -256,13 +296,43 @@ export default async function PartidoPage({
                     </p>
                     <div
                       className="mt-2 flex items-center gap-1 text-muted"
-                      title={`${ownGoals} en contra`}
-                      aria-label={`${ownGoals} en contra`}
+                      title={`${ownGoalCount} en contra`}
+                      aria-label={`${ownGoalCount} en contra`}
                     >
-                      {Array.from({ length: ownGoals }, (_, i) => (
+                      {Array.from({ length: ownGoalCount }, (_, i) => (
                         <IoFootball key={i} className="h-7 w-7 shrink-0" />
                       ))}
                     </div>
+                    {ownGoalAssists.length > 0 ? (
+                      <ul className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+                        {ownGoalAssists.map((assistName, i) => {
+                          const assistPlayer = findPlayer(data, assistName);
+                          const chip = (
+                            <span className="inline-flex items-center gap-1 text-sm font-medium text-muted">
+                              <AssistIcon className="h-5 w-5 shrink-0" />
+                              <span>{assistName}</span>
+                            </span>
+                          );
+                          return (
+                            <li key={`og-${assistName}-${i}`}>
+                              {assistPlayer ? (
+                                <Link
+                                  href={`/jugadores/${assistPlayer.slug}`}
+                                  className="hover:underline"
+                                  aria-label={`Asistencia: ${assistName}`}
+                                >
+                                  {chip}
+                                </Link>
+                              ) : (
+                                <span aria-label={`Asistencia: ${assistName}`}>
+                                  {chip}
+                                </span>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
                   </div>
                 </li>
               ) : null}
