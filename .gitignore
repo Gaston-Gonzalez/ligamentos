@@ -44,3 +44,7 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# face recognition (local ML weights + incremental run state)
+/data/face-models/
+/data/face-recognition-state.json

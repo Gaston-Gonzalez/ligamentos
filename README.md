@@ -77,6 +77,55 @@ npm run seed:db
 4. Deploy
 5. Corré `db:push` + `seed:db` una vez (desde tu máquina con la misma `DATABASE_URL`)
 
+## Reconocimiento facial (local)
+
+Auto-tag de jugadores en fotos con `@vladmandic/face-api` (WASM, corre en tu PC — no en Vercel).
+
+### Setup
+
+```bash
+npm install
+npm run faces:models    # copia pesos a data/face-models/
+```
+
+En Windows no hace falta Visual C++: usamos el backend WASM de TensorFlow (sin `tfjs-node`).
+
+### Flujo
+
+1. En `/admin/fotos` o la galería, tageá a mano **2–4 fotos claras de cerca** por jugador (cara visible).
+2. Enrolá descriptores:
+
+```bash
+npm run faces:enroll
+```
+
+Escribe `data/face-descriptors.json`.
+
+3. Reconocé el resto (merge de tags; no borra tags manuales):
+
+```bash
+# Preferí npx (npm en Windows se come flags como --force / --limit):
+npx tsx scripts/faces-recognize.ts --max=20            # prueba
+npx tsx scripts/faces-recognize.ts                     # full run
+npx tsx scripts/faces-recognize.ts --rerun             # reprocesar
+npx tsx scripts/faces-recognize.ts --threshold=0.5     # más estricto
+npx tsx scripts/faces-recognize.ts --untagged-only     # solo fotos sin tags
+
+# Vía npm (usá forma --clave=valor):
+npm run faces:recognize -- --max=20 --rerun
+```
+
+Estado incremental: `data/face-recognition-state.json`. Con `DATABASE_URL` escribe también en Neon (`photo_tags`).
+
+4. Corregí errores a mano en galería / admin.
+
+### Próximos pasos (post-v1)
+
+- **v2** — Cola admin de revisión (confianza, origen `manual` / `face-auto`, filtros).
+- **v3** — Enrolamiento visual: click en caras detectadas en la foto.
+- **v4** — Recognize automático al scrapear álbumes nuevos (job local).
+- **v5** — Más precisión: K refs por jugador, filtros de calidad, `faces:eval`.
+
 ## Rutas
 
 | Ruta | Descripción |
