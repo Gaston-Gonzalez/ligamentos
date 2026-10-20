@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import {
@@ -21,6 +21,10 @@ import {
   photos,
   players,
 } from "@/db/schema";
+import {
+  fetchLigaproAlbumImages,
+  ligaproAlbumIdFromUrl,
+} from "@/lib/ligapro-album";
 import type { SeedData, SeedPhoto } from "@/lib/types";
 
 async function requireAdmin() {
@@ -80,6 +84,103 @@ async function writePhotos(list: SeedPhoto[]) {
     JSON.stringify({ ...existing, photos: list, updatedAt: new Date().toISOString() }, null, 2),
     "utf8",
   );
+}
+
+type AlbumSync =
+  | { status: "skipped" }
+  | { status: "imported"; count: number }
+  | { status: "error"; reason: "format" | "fetch" };
+
+/** Download a Liga Pro album and attach its photos to the match. */
+async function syncMatchAlbum(opts: {
+  ids: Awaited<ReturnType<typeof resolveDbIds>>;
+  albumUrl: string | null;
+  previousUrl: string | null;
+  matchIndex: number;
+  matchDbId: number | null;
+  championshipId: number | null;
+  championshipSlug: string | null;
+  rival: string;
+}): Promise<AlbumSync> {
+  if (!opts.albumUrl || opts.albumUrl === opts.previousUrl) {
+    return { status: "skipped" };
+  }
+  const albumId = ligaproAlbumIdFromUrl(opts.albumUrl);
+  if (!albumId) return { status: "error", reason: "format" };
+
+  let images: string[];
+  try {
+    images = await fetchLigaproAlbumImages(albumId);
+  } catch (error) {
+    console.error(error);
+    return { status: "error", reason: "fetch" };
+  }
+  if (images.length === 0) return { status: "imported", count: 0 };
+
+  const caption = `vs ${opts.rival}`;
+  if (opts.ids && opts.matchDbId != null) {
+    for (let i = 0; i < images.length; i += 40) {
+      const chunk = images.slice(i, i + 40);
+      await opts.ids.db
+        .insert(photos)
+        .values(
+          chunk.map((imageUrl, offset) => ({
+            imageUrl,
+            sourcePageUrl: opts.albumUrl,
+            championshipId: opts.championshipId,
+            matchId: opts.matchDbId,
+            caption,
+            sortOrder: i + offset,
+          })),
+        )
+        .onConflictDoUpdate({
+          target: photos.imageUrl,
+          set: {
+            sourcePageUrl: sql`excluded.source_page_url`,
+            championshipId: sql`excluded.championship_id`,
+            matchId: sql`excluded.match_id`,
+            caption: sql`excluded.caption`,
+            sortOrder: sql`excluded.sort_order`,
+          },
+        });
+    }
+    return { status: "imported", count: images.length };
+  }
+
+  const list = await readPhotos();
+  const byUrl = new Map(list.map((p) => [p.imageUrl, p]));
+  images.forEach((imageUrl, sortOrder) => {
+    const prev = byUrl.get(imageUrl);
+    byUrl.set(imageUrl, {
+      ...prev,
+      imageUrl,
+      sourcePageUrl: opts.albumUrl,
+      championshipSlug: opts.championshipSlug,
+      matchIndex: opts.matchIndex,
+      caption,
+      sortOrder,
+      taggedPlayerSlugs: prev?.taggedPlayerSlugs ?? [],
+    });
+  });
+  await writePhotos([...byUrl.values()]);
+  return { status: "imported", count: images.length };
+}
+
+function redirectAfterMatchSave(index: number, sync: AlbumSync, always: boolean) {
+  revalidatePath("/", "layout");
+  revalidatePath("/partidos");
+  revalidatePath(`/partidos/${index}`);
+  revalidatePath("/admin/partidos");
+  revalidatePath("/galeria");
+  revalidatePath("/admin/fotos");
+  revalidatePath("/videos");
+  if (sync.status === "error") {
+    redirect(`/admin/partidos?edit=${index}&photosError=${sync.reason}`);
+  }
+  if (sync.status === "imported") {
+    redirect(`/admin/partidos?edit=${index}&imported=${sync.count}`);
+  }
+  if (always) redirect(`/admin/partidos?edit=${index}`);
 }
 
 export async function loginAction(formData: FormData) {
@@ -314,6 +415,7 @@ export async function createMatchAction(formData: FormData) {
   const youtubeUrl = String(formData.get("youtubeUrl") ?? "").trim() || null;
   const ligaproAlbumUrl =
     String(formData.get("ligaproAlbumUrl") ?? "").trim() || null;
+  const ligaproAlbumId = ligaproAlbumIdFromUrl(ligaproAlbumUrl);
   const goalEntries = parseGoalEntries(formData);
   const attEntries = parseAttendanceEntries(formData);
 
@@ -327,11 +429,16 @@ export async function createMatchAction(formData: FormData) {
 
   const ids = await resolveDbIds();
   let newIndex: number;
+  let championshipId: number | null = null;
+  let championshipSlug: string | null = null;
+  let matchDbId: number | null = null;
   if (ids) {
-    const champ = [...ids.championshipBySlug.values()].find(
-      (c) => c.name === championshipName,
+    const champEntry = [...ids.championshipBySlug.entries()].find(
+      ([, c]) => c.name === championshipName,
     );
-    if (!champ) throw new Error("Campeonato no encontrado");
+    if (!champEntry) throw new Error("Campeonato no encontrado");
+    championshipSlug = champEntry[0];
+    championshipId = champEntry[1].id;
     const maxIndex = Math.max(
       0,
       ...[...ids.matchByIndex.keys()].map(Number),
@@ -340,7 +447,7 @@ export async function createMatchAction(formData: FormData) {
     const [row] = await ids.db
       .insert(matches)
       .values({
-        championshipId: champ.id,
+        championshipId,
         matchIndex: newIndex,
         rival,
         date,
@@ -350,16 +457,18 @@ export async function createMatchAction(formData: FormData) {
         result,
         jornada,
         youtubeUrl,
+        ligaproAlbumId,
         ligaproAlbumUrl,
       })
       .returning();
+    matchDbId = row.id;
     await saveMatchGoals(ids, newIndex, row.id, goalEntries);
     await saveMatchAttendance(ids, newIndex, row.id, attEntries);
   } else {
     const seed = await readSeed();
-    if (!seed.championships.some((c) => c.name === championshipName)) {
-      throw new Error("Campeonato no encontrado");
-    }
+    const champ = seed.championships.find((c) => c.name === championshipName);
+    if (!champ) throw new Error("Campeonato no encontrado");
+    championshipSlug = champ.slug;
     newIndex =
       Math.max(0, ...seed.matches.map((m) => m.index)) + 1;
     seed.matches.push({
@@ -373,6 +482,7 @@ export async function createMatchAction(formData: FormData) {
       date,
       jornada,
       youtubeUrl,
+      ligaproAlbumId,
       ligaproAlbumUrl,
     });
     await saveMatchGoals(null, newIndex, null, goalEntries, seed);
@@ -380,8 +490,17 @@ export async function createMatchAction(formData: FormData) {
     await writeSeed(seed);
   }
 
-  revalidatePath("/", "layout");
-  redirect(`/admin/partidos?edit=${newIndex}`);
+  const sync = await syncMatchAlbum({
+    ids,
+    albumUrl: ligaproAlbumUrl,
+    previousUrl: null,
+    matchIndex: newIndex,
+    matchDbId,
+    championshipId,
+    championshipSlug,
+    rival,
+  });
+  redirectAfterMatchSave(newIndex, sync, true);
 }
 
 export async function updateMatchAction(formData: FormData) {
@@ -396,6 +515,7 @@ export async function updateMatchAction(formData: FormData) {
   const youtubeUrl = String(formData.get("youtubeUrl") ?? "").trim() || null;
   const ligaproAlbumUrl =
     String(formData.get("ligaproAlbumUrl") ?? "").trim() || null;
+  const ligaproAlbumId = ligaproAlbumIdFromUrl(ligaproAlbumUrl);
   const coverImageUrl =
     String(formData.get("coverImageUrl") ?? "").trim() || null;
   const championshipName = String(formData.get("championship") ?? "").trim();
@@ -412,12 +532,20 @@ export async function updateMatchAction(formData: FormData) {
   const jornada = jornadaRaw ? Number(jornadaRaw) : null;
 
   const ids = await resolveDbIds();
+  let previousUrl: string | null = null;
+  let matchDbId: number | null = null;
+  let championshipId: number | null = null;
+  let championshipSlug: string | null = null;
   if (ids) {
     const match = ids.matchByIndex.get(index);
     if (!match) throw new Error("Partido no encontrado");
-    const champ = [...ids.championshipBySlug.values()].find(
-      (c) => c.name === championshipName,
+    previousUrl = match.ligaproAlbumUrl;
+    matchDbId = match.id;
+    const champEntry = [...ids.championshipBySlug.entries()].find(
+      ([, c]) => c.name === championshipName,
     );
+    championshipSlug = champEntry?.[0] ?? null;
+    championshipId = champEntry?.[1].id ?? match.championshipId;
     await ids.db
       .update(matches)
       .set({
@@ -429,9 +557,10 @@ export async function updateMatchAction(formData: FormData) {
         result,
         jornada,
         youtubeUrl,
+        ligaproAlbumId,
         ligaproAlbumUrl,
         coverImageUrl,
-        championshipId: champ?.id ?? match.championshipId,
+        championshipId,
       })
       .where(eq(matches.id, match.id));
     await saveMatchGoals(ids, index, match.id, goalEntries);
@@ -440,6 +569,9 @@ export async function updateMatchAction(formData: FormData) {
     const seed = await readSeed();
     const m = seed.matches.find((x) => x.index === index);
     if (!m) throw new Error("Partido no encontrado");
+    previousUrl = m.ligaproAlbumUrl ?? null;
+    const champ = seed.championships.find((c) => c.name === championshipName);
+    championshipSlug = champ?.slug ?? null;
     m.rival = rival;
     m.date = date;
     m.pitch = pitchRaw ? Number(pitchRaw) : null;
@@ -448,6 +580,7 @@ export async function updateMatchAction(formData: FormData) {
     m.result = result;
     m.jornada = jornada;
     m.youtubeUrl = youtubeUrl;
+    m.ligaproAlbumId = ligaproAlbumId;
     m.ligaproAlbumUrl = ligaproAlbumUrl;
     m.coverImageUrl = coverImageUrl;
     m.championship = championshipName;
@@ -456,11 +589,17 @@ export async function updateMatchAction(formData: FormData) {
     await writeSeed(seed);
   }
 
-  revalidatePath("/", "layout");
-  revalidatePath("/partidos");
-  revalidatePath(`/partidos/${index}`);
-  revalidatePath("/admin/partidos");
-  revalidatePath("/videos");
+  const sync = await syncMatchAlbum({
+    ids,
+    albumUrl: ligaproAlbumUrl,
+    previousUrl,
+    matchIndex: index,
+    matchDbId,
+    championshipId,
+    championshipSlug,
+    rival,
+  });
+  redirectAfterMatchSave(index, sync, false);
 }
 
 /** Replace all goal scorers for a match. Form fields: goalPlayer[] (name or ""), goalOwn[] ("1" / "0"). */

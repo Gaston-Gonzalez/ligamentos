@@ -9,6 +9,7 @@ import { sortPhotosNewestFirst } from "@/lib/photos";
 import { createMatchAction, updateMatchAction } from "../actions";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 export default async function AdminPartidosPage({
   searchParams,
@@ -18,10 +19,12 @@ export default async function AdminPartidosPage({
     error?: string;
     gf?: string;
     gs?: string;
+    imported?: string;
+    photosError?: string;
   }>;
 }) {
   if (!(await isAdminAuthenticated())) redirect("/admin/login");
-  const { edit, error, gf, gs } = await searchParams;
+  const { edit, error, gf, gs, imported, photosError } = await searchParams;
   const data = await getData();
   const editIndex = edit ? Number(edit) : null;
   const editing =
@@ -68,6 +71,33 @@ export default async function AdminPartidosPage({
           {gf != null ? ` (${gf})` : ""} deben coincidir con la cantidad de
           goleadores
           {gs != null ? ` (${gs})` : ""}.
+        </p>
+      ) : null}
+      {imported != null ? (
+        <p
+          role="status"
+          className="rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"
+        >
+          {Number(imported) > 0
+            ? `Se guardaron ${imported} fotos del álbum en este partido.`
+            : "El álbum no tiene fotos para guardar."}
+        </p>
+      ) : null}
+      {photosError === "format" ? (
+        <p
+          role="alert"
+          className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+        >
+          El link quedó guardado, pero no es un álbum de Liga Pro. Tiene que
+          ser del estilo https://www.ligapro.uy/galeria/album/123.
+        </p>
+      ) : null}
+      {photosError === "fetch" ? (
+        <p
+          role="alert"
+          className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-800"
+        >
+          El link quedó guardado, pero no se pudieron descargar las fotos.
         </p>
       ) : null}
       {!editing ? (
@@ -161,6 +191,9 @@ export default async function AdminPartidosPage({
                 placeholder="https://www.ligapro.uy/galeria/album/..."
                 className="mt-1 w-full rounded-lg border border-line px-3 py-2"
               />
+              <span className="mt-1 block text-xs opacity-70">
+                Al guardar se importan las fotos de ese álbum.
+              </span>
             </label>
             <MatchGoalsFields goalsFor={0} players={playerOpts} />
             <MatchAttendanceFields players={playerOpts} />
@@ -270,6 +303,9 @@ export default async function AdminPartidosPage({
                 placeholder="https://www.ligapro.uy/galeria/album/..."
                 className="mt-1 w-full rounded-lg border border-line px-3 py-2"
               />
+              <span className="mt-1 block text-xs opacity-70">
+                Al guardar se importan las fotos de ese álbum.
+              </span>
             </label>
             <MatchCoverPicker
               photos={editingPhotos.map((p) => ({
