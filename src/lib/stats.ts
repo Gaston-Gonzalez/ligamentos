@@ -254,6 +254,209 @@ export function attendanceForMatch(
     .sort((a, b) => a.player.localeCompare(b.player));
 }
 
+export type GoalConnection = {
+  scorer: SeedPlayer;
+  assister: SeedPlayer;
+  goals: number;
+};
+
+/** Parejas goleador + asistente, en un solo sentido. */
+export function topConnections(
+  data: SeedData,
+  limit = 12,
+): GoalConnection[] {
+  const counts = new Map<
+    string,
+    { scorer: SeedPlayer; assister: SeedPlayer; goals: number }
+  >();
+
+  for (const g of data.goals) {
+    if (g.isOwnGoal || !g.player || !g.assistPlayer) continue;
+    const scorer = findPlayer(data, g.player);
+    const assister = findPlayer(data, g.assistPlayer);
+    if (!scorer || !assister || scorer.slug === assister.slug) continue;
+    const key = `${scorer.slug}|${assister.slug}`;
+    const existing = counts.get(key);
+    if (existing) existing.goals += 1;
+    else counts.set(key, { scorer, assister, goals: 1 });
+  }
+
+  return [...counts.values()]
+    .sort(
+      (a, b) =>
+        b.goals - a.goals ||
+        a.scorer.name.localeCompare(b.scorer.name) ||
+        a.assister.name.localeCompare(b.assister.name),
+    )
+    .slice(0, limit);
+}
+
+export type DuoConnection = {
+  playerA: SeedPlayer;
+  playerB: SeedPlayer;
+  /** Goles en los que uno asistió al otro, en cualquier dirección. */
+  goals: number;
+  goalsA: number;
+  assistsA: number;
+  goalsB: number;
+  assistsB: number;
+};
+
+/** Parejas sin dirección: suma los goles en que cualquiera asistió al otro. */
+export function duoConnections(data: SeedData, limit = 12): DuoConnection[] {
+  const counts = new Map<string, DuoConnection>();
+
+  for (const g of data.goals) {
+    if (g.isOwnGoal || !g.player || !g.assistPlayer) continue;
+    const scorer = findPlayer(data, g.player);
+    const assister = findPlayer(data, g.assistPlayer);
+    if (!scorer || !assister || scorer.slug === assister.slug) continue;
+
+    const [playerA, playerB] = [scorer, assister].sort((a, b) =>
+      a.slug.localeCompare(b.slug),
+    );
+    const key = `${playerA.slug}|${playerB.slug}`;
+    const row = counts.get(key) ?? {
+      playerA,
+      playerB,
+      goals: 0,
+      goalsA: 0,
+      assistsA: 0,
+      goalsB: 0,
+      assistsB: 0,
+    };
+    row.goals += 1;
+    if (scorer.slug === playerA.slug) {
+      row.goalsA += 1;
+      row.assistsB += 1;
+    } else {
+      row.goalsB += 1;
+      row.assistsA += 1;
+    }
+    counts.set(key, row);
+  }
+
+  return [...counts.values()]
+    .sort(
+      (a, b) =>
+        b.goals - a.goals ||
+        a.playerA.name.localeCompare(b.playerA.name) ||
+        a.playerB.name.localeCompare(b.playerB.name),
+    )
+    .slice(0, limit);
+}
+
+export type AttendancePoint = {
+  matchIndex: number;
+  date: string;
+  rival: string;
+  championship: string;
+  present: number;
+  injury: number;
+  travel: number;
+};
+
+/** Presentes, lesiones y viajes por partido, en orden cronológico. */
+export function attendanceTimeline(data: SeedData): AttendancePoint[] {
+  const byMatch = new Map<
+    number,
+    { present: number; injury: number; travel: number }
+  >();
+  for (const a of data.attendances) {
+    const bucket = byMatch.get(a.matchIndex) ?? {
+      present: 0,
+      injury: 0,
+      travel: 0,
+    };
+    if (a.status === "present") bucket.present += 1;
+    else if (a.status === "injury") bucket.injury += 1;
+    else if (a.status === "travel") bucket.travel += 1;
+    byMatch.set(a.matchIndex, bucket);
+  }
+
+  return data.matches
+    .filter((m): m is SeedMatch & { date: string } => Boolean(m.date))
+    .map((m) => ({
+      matchIndex: m.index,
+      date: m.date,
+      rival: m.rival,
+      championship: m.championship,
+      ...(byMatch.get(m.index) ?? { present: 0, injury: 0, travel: 0 }),
+    }))
+    .sort(
+      (a, b) =>
+        a.date.localeCompare(b.date) || a.matchIndex - b.matchIndex,
+    );
+}
+
+export type AbsenceLeader = {
+  player: SeedPlayer;
+  injuries: number;
+  travels: number;
+  absent: number;
+};
+
+export function absenceBreakdown(data: SeedData): {
+  injuries: number;
+  travels: number;
+  absent: number;
+  playersInjured: number;
+  playersTraveling: number;
+  playersAbsent: number;
+  byInjury: AbsenceLeader[];
+  byTravel: AbsenceLeader[];
+  byAbsent: AbsenceLeader[];
+} {
+  const map = new Map<string, AbsenceLeader>();
+  for (const a of data.attendances) {
+    if (a.status !== "injury" && a.status !== "travel" && a.status !== "absent") {
+      continue;
+    }
+    const player = findPlayer(data, a.player);
+    if (!player) continue;
+    const row = map.get(player.slug) ?? {
+      player,
+      injuries: 0,
+      travels: 0,
+      absent: 0,
+    };
+    if (a.status === "injury") row.injuries += 1;
+    else if (a.status === "travel") row.travels += 1;
+    else row.absent += 1;
+    map.set(player.slug, row);
+  }
+
+  const rows = [...map.values()];
+  return {
+    injuries: rows.reduce((sum, row) => sum + row.injuries, 0),
+    travels: rows.reduce((sum, row) => sum + row.travels, 0),
+    absent: rows.reduce((sum, row) => sum + row.absent, 0),
+    playersInjured: rows.filter((row) => row.injuries > 0).length,
+    playersTraveling: rows.filter((row) => row.travels > 0).length,
+    playersAbsent: rows.filter((row) => row.absent > 0).length,
+    byInjury: rows
+      .filter((row) => row.injuries > 0)
+      .sort(
+        (a, b) =>
+          b.injuries - a.injuries ||
+          a.player.name.localeCompare(b.player.name),
+      ),
+    byTravel: rows
+      .filter((row) => row.travels > 0)
+      .sort(
+        (a, b) =>
+          b.travels - a.travels ||
+          a.player.name.localeCompare(b.player.name),
+      ),
+    byAbsent: rows
+      .filter((row) => row.absent > 0)
+      .sort(
+        (a, b) =>
+          b.absent - a.absent || a.player.name.localeCompare(b.player.name),
+      ),
+  };
+}
+
 export function formatPct(n: number): string {
   return `${Math.round(n * 100)}%`;
 }
