@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { PlayerAvatar } from "@/components/PlayerAvatar";
 import { SectionHeading } from "@/components/SectionHeading";
 import { getData } from "@/lib/data";
@@ -22,7 +23,10 @@ type SortId =
   | "wins"
   | "winrate"
   | "goals"
+  | "gpg"
   | "assists"
+  | "apg"
+  | "gapg"
   | "streak";
 
 type SortDir = "asc" | "desc";
@@ -30,20 +34,48 @@ type SortDir = "asc" | "desc";
 const COLUMNS: {
   id: SortId;
   label: string;
+  title?: string;
   defaultDir: SortDir;
-  align?: "left" | "right";
+  align?: "left" | "center";
 }[] = [
-  { id: "name", label: "Jugador", defaultDir: "asc", align: "left" },
+  { id: "name", label: "Nombre", defaultDir: "asc", align: "left" },
   { id: "played", label: "Jugados", defaultDir: "desc" },
-  { id: "eligible", label: "Hab.", defaultDir: "desc" },
-  { id: "pct", label: "%", defaultDir: "desc" },
-  { id: "justified", label: "Just.", defaultDir: "desc" },
+  { id: "eligible", label: "Hab.", title: "Habilitados", defaultDir: "desc" },
+  { id: "pct", label: "%", title: "Asistencia", defaultDir: "desc" },
+  { id: "justified", label: "Just.", title: "Justificadas", defaultDir: "desc" },
   { id: "wins", label: "Récord", defaultDir: "desc" },
-  { id: "winrate", label: "WR", defaultDir: "desc" },
+  { id: "winrate", label: "WR", title: "Win rate", defaultDir: "desc" },
   { id: "goals", label: "Goles", defaultDir: "desc" },
-  { id: "assists", label: "Asist.", defaultDir: "desc" },
+  {
+    id: "gpg",
+    label: "GPG",
+    title: "Goles por partido",
+    defaultDir: "desc",
+  },
+  { id: "assists", label: "Asist.", title: "Asistencias", defaultDir: "desc" },
+  {
+    id: "apg",
+    label: "APG",
+    title: "Asistencias por partido",
+    defaultDir: "desc",
+  },
+  {
+    id: "gapg",
+    label: "G/APG",
+    title: "Goles + asistencias por partido",
+    defaultDir: "desc",
+  },
   { id: "streak", label: "Racha", defaultDir: "desc" },
 ];
+
+function perGame(value: number, played: number): number {
+  return played ? value / played : 0;
+}
+
+function formatPerGame(value: number, played: number): string {
+  if (!played) return "—";
+  return perGame(value, played).toFixed(2);
+}
 
 function sortValue(p: PlayerStats, id: SortId): number | string {
   switch (id) {
@@ -63,8 +95,14 @@ function sortValue(p: PlayerStats, id: SortId): number | string {
       return p.winRate;
     case "goals":
       return p.goals;
+    case "gpg":
+      return perGame(p.goals, p.played);
     case "assists":
       return p.assists;
+    case "apg":
+      return perGame(p.assists, p.played);
+    case "gapg":
+      return perGame(p.goals + p.assists, p.played);
     case "streak":
       return p.longestStreak;
   }
@@ -90,25 +128,44 @@ function SortHeader({
 
   return (
     <th
-      className={`px-3 py-3 text-sm font-semibold ${
-        col.align === "left" ? "text-left" : "text-right"
+      className={`px-2 py-3 text-xs font-semibold uppercase tracking-wide ${
+        col.align === "left" ? "text-left" : "text-center"
       }`}
     >
       <Link
         href={href}
         className={`inline-flex items-center gap-0.5 hover:text-gold-soft ${
-          active ? "text-gold-soft" : "text-white"
+          active ? "text-gold-soft" : "text-white/85"
         }`}
         title={
-          active
+          col.title ??
+          (active
             ? `Ordenar ${nextDir === "asc" ? "ascendente" : "descendente"}`
-            : `Ordenar por ${col.label}`
+            : `Ordenar por ${col.label}`)
         }
       >
         {col.label}
-        <span className="inline-block w-3 text-xs opacity-90">{arrow}</span>
+        <span className="inline-block w-3 text-[10px] opacity-90">{arrow}</span>
       </Link>
     </th>
+  );
+}
+
+function StatCell({
+  children,
+  emphasize,
+}: {
+  children: ReactNode;
+  emphasize?: boolean;
+}) {
+  return (
+    <td
+      className={`px-2 py-3 text-center tabular-nums ${
+        emphasize ? "font-semibold text-blue" : "text-ink"
+      }`}
+    >
+      {children}
+    </td>
   );
 }
 
@@ -144,16 +201,17 @@ export default async function JugadoresPage({
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="mx-auto max-w-7xl px-4 py-10">
       <SectionHeading
         title="Jugadores"
-        subtitle="Presencias, habilitados, justificadas, récord, goles y asistencias del plantel. Tocá una columna para ordenar."
+        subtitle="Presencias, habilitados, justificadas, récord, goles, asistencias y promedios por partido. Tocá una columna para ordenar."
       />
 
       <div className="overflow-x-auto surface rounded-2xl">
-        <table className="min-w-full text-left text-base">
+        <table className="min-w-full text-sm">
           <thead className="border-b border-line bg-blue-deep text-white">
             <tr>
+              <th className="w-16 px-3 py-3" aria-hidden />
               {COLUMNS.map((c) => (
                 <SortHeader
                   key={c.id}
@@ -175,48 +233,45 @@ export default async function JugadoresPage({
                   key={p.playerSlug}
                   className="border-b border-line/70 transition hover:bg-white/60"
                 >
-                  <td className="w-52 max-w-52 px-3 py-3 font-semibold text-blue-deep">
+                  <td className="px-3 py-2.5">
                     <Link
                       href={`/jugadores/${p.playerSlug}`}
-                      className="flex items-center gap-2.5"
+                      className="block"
+                      aria-label={p.playerName}
                     >
                       <PlayerAvatar
                         url={photo?.url}
                         crop={photo?.crop}
                         name={p.playerName}
-                        className="h-28 w-28 shrink-0 rounded-2xl border-[3px]"
+                        className="h-14 w-14 shrink-0 rounded-xl border-[2.5px]"
                         fallback={p.playerName.slice(0, 1)}
                       />
-                      <span className="min-w-0 truncate text-base leading-tight">
-                        {p.playerName}
-                      </span>
                     </Link>
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums">{p.played}</td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {p.eligible}
+                  <td className="px-2 py-2.5 text-left">
+                    <Link
+                      href={`/jugadores/${p.playerSlug}`}
+                      className="font-semibold text-blue-deep hover:text-blue"
+                    >
+                      {p.playerName}
+                    </Link>
                   </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {formatPct(p.attendancePct)}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {formatPct(p.justifiedPct)}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
+                  <StatCell>{p.played}</StatCell>
+                  <StatCell>{p.eligible}</StatCell>
+                  <StatCell>{formatPct(p.attendancePct)}</StatCell>
+                  <StatCell>{formatPct(p.justifiedPct)}</StatCell>
+                  <StatCell>
                     {recordString(p.wins, p.draws, p.losses)}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {formatPct(p.winRate)}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums font-semibold text-blue">
-                    {p.goals}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums font-semibold text-blue">
-                    {p.assists}
-                  </td>
-                  <td className="px-3 py-3 text-right tabular-nums">
-                    {p.longestStreak}
-                  </td>
+                  </StatCell>
+                  <StatCell>{formatPct(p.winRate)}</StatCell>
+                  <StatCell emphasize>{p.goals}</StatCell>
+                  <StatCell>{formatPerGame(p.goals, p.played)}</StatCell>
+                  <StatCell emphasize>{p.assists}</StatCell>
+                  <StatCell>{formatPerGame(p.assists, p.played)}</StatCell>
+                  <StatCell emphasize>
+                    {formatPerGame(p.goals + p.assists, p.played)}
+                  </StatCell>
+                  <StatCell>{p.longestStreak}</StatCell>
                 </tr>
               );
             })}
