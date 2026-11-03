@@ -76,6 +76,12 @@ export default async function HomePage() {
               >
                 Últimos partidos
               </Link>
+              <Link
+                href="/ligamentosdle"
+                className="rounded-full border border-gold/70 bg-gold/15 px-5 py-2.5 text-sm font-semibold text-gold-soft transition hover:bg-gold/25"
+              >
+                Ligamentosdle
+              </Link>
             </div>
           </div>
           <div className="flex justify-center animate-rise">

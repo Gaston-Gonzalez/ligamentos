@@ -27,6 +27,9 @@ export function Footer() {
           >
             YouTube
           </a>
+          <Link href="/ligamentosdle" className="hover:text-gold-soft">
+            Ligamentosdle
+          </Link>
           <Link href="/admin" className="hover:text-gold-soft">
             Admin
           </Link>

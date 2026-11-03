@@ -109,6 +109,20 @@ export default async function EstadisticasPage() {
         title="Estadísticas"
         subtitle="Conexiones de gol, convocatoria a lo largo del tiempo, lesiones, viajes y ausencias."
       />
+      <Link
+        href="/ligamentosdle"
+        className="surface mb-10 flex items-center justify-between gap-4 rounded-2xl px-5 py-4 transition hover:border-gold/50"
+      >
+        <span>
+          <span className="display block text-3xl text-blue-deep">Ligamentosdle</span>
+          <span className="mt-1 block text-sm text-muted">
+            Preguntas del día armadas con estas estadísticas.
+          </span>
+        </span>
+        <span className="shrink-0 rounded-full bg-gold px-4 py-2 text-sm font-bold text-blue-deep">
+          Jugar
+        </span>
+      </Link>
 
       <section>
         <SectionHeading

@@ -9,6 +9,7 @@ const links = [
   { href: "/estadisticas", label: "Estadísticas" },
   { href: "/galeria", label: "Galería" },
   { href: "/videos", label: "Videos" },
+  { href: "/ligamentosdle", label: "Jugar" },
 ];
 
 export function Header() {
@@ -31,7 +32,7 @@ export function Header() {
             <p className="text-xs tracking-[0.18em] text-white/70">CRUZEIRO</p>
           </div>
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden min-w-0 items-center gap-1 overflow-x-auto md:flex">
           {links.map((l) => (
             <Link
               key={l.href}
