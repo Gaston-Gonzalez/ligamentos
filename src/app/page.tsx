@@ -50,7 +50,7 @@ export default async function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-deep/90 via-blue-deep/70 to-blue-deep/35" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-blue-deep/40" />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-16 md:grid-cols-[1.1fr_0.9fr] md:py-24">
+        <div className="relative mx-auto flex max-w-6xl items-center px-4 py-16 md:py-24">
           <div className="animate-rise text-white">
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-gold-soft">
               Serie 4 · Liga Pro
@@ -83,16 +83,6 @@ export default async function HomePage() {
                 Ligamentosdle
               </Link>
             </div>
-          </div>
-          <div className="flex justify-center animate-rise">
-            <Image
-              src="/escudo.jpg"
-              alt="Escudo Ligamentos Cruzeiro"
-              width={320}
-              height={320}
-              className="animate-crest w-56 rounded-full border-4 border-gold shadow-2xl md:w-72"
-              priority
-            />
           </div>
         </div>
       </section>
