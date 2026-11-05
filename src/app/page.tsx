@@ -66,7 +66,7 @@ export default async function HomePage() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/jugadores"
-                className="rounded-full bg-gold px-5 py-2.5 text-sm font-bold text-blue-deep transition hover:bg-gold-soft"
+                className="rounded-full border border-white/35 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10"
               >
                 Ver jugadores
               </Link>
